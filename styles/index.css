@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body{
+    background:linear-gradient(-45deg,#60A5FA,#93C5FD,#BFDBFE,#EFF6FF);
+    background-size: 400% 400%;
+    animation: gradientMove 12s ease infinite;
+    font-family: "Poppins",sans-serif;
+}
+@keyframes gradientMove {
+    0%{background-position: 0% 50%;}
+    50%{background-position: 100% 50%;}
+    100%{background-position: 0% 50%;}
+}
+#navContainer{
+    background: linear-gradient(135deg, #0F172A,#1E3A8A, #2563EB);
+    top:0;
+    left:0;
+    position:sticky;
+    z-index:999;
+}
+
+footer{
+    background: linear-gradient(135deg, #0F172A,#1E3A8A, #2563EB);
+    margin-top:100px;
+}
+.card{
+    min-height:150px;
+}
+.card-header{
+    background: linear-gradient(135deg,#1E3A8A,#2563EB);
+}
+#loginBtn,#signBtn,#getBtn,#themeBtn,#login,#emailGroup,#passGroup{
+    background: linear-gradient( 135deg, #1E3A8A, #2563EB);
+    color:white;
+    font-weight: bold;
+}
+img{
+    animation:float 3s ease-in-out infinite;
+}
+@keyframes float {
+    0%{transform: translateY(0);}
+    50%{transform: translateY(-15px);}
+    100%{transform: translateY(0);}    
+}
+#loginBtn:hover,#getBtn:hover,#signBtn:hover,#themeBtn:hover,#login:hover{
+    background: white;
+    color:blue;
+    border:1px solid blue;
+}
+#heroContainer{
+    margin-top: 100px;
+}
+.navbar-brand{
+    letter-spacing: 1px;
+}
