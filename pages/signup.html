@@ -78,6 +78,9 @@
                             <i class="bi bi-calendar-date"></i>
                         </span>
                         <input type="date" id="dob" class="form-control" placeholder="Enter you DOB">
+                        <div class="invalid-feedback">
+                            Enter your Date of Birth and age must be greater than 18
+                        </div>
                     </div>
 
                     <!-- gender -->
@@ -105,11 +108,14 @@
                     <!-- role(Recruiters/Applicant) -->
                     <label for="role" class="form-label">Role</label>
             
-                    <select id="role" class="form-select mb-3">
+                    <select id="role" class="form-select mb-2">
                         <option value="">Select Role</option>
                         <option value="Recruiter">Recruiter</option>
                         <option value="Applicant">Applicant</option>
                     </select>
+                    <div class="d-none text-danger mt-1" id="roleError">
+                        Select your role
+                    </div>
                     
 
                     <!-- company name(Recruiters) -->
@@ -121,7 +127,7 @@
                             </span>
                             <input type="text" id="compName" class="form-control" placeholder="Company Name">
                             <div class="invalid-feedback">
-                                Select your role
+                                Company name should be entered.
                             </div>
                         </div>
                     </div>
@@ -134,75 +140,91 @@
                                 <i class="bi bi-geo-alt"></i>
                             </span>
                             <input type="text" id="compLocation" class="form-control" placeholder="Company Location">
+                            <div class="invalid-feedback">
+                                Company Location should be entered.
+                            </div>
                         </div>
                     </div>
 
                     <!-- qualification(Applicant) -->
-                    <label for="qualification" class="form-label">Qualification</label>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">
-                             <i class="bi bi-mortarboard"></i>
-                        </span>
-                        <input type="text" id="qualification" class="form-control" placeholder="Qualification ex:BSc Computer Technology">
+                    <div class="d-none" id="applicantQual">
+                        <label for="qualification" class="form-label">Qualification</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">
+                                <i class="bi bi-mortarboard"></i>
+                            </span>
+                            <input type="text" id="qualification" class="form-control" placeholder="Qualification ex:BSc Computer Technology">
+                            <div class="invalid-feedback">
+                                Enter your qualification
+                            </div>
+                        </div>
                     </div>
 
                     <!-- experience(Applicant) -->
-                    <label for="experience" class="form-label">Experience</label>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">
-                             <i class="bi bi-briefcase"></i>
-                        </span>
-                        <input type="number" id="experience" class="form-control" placeholder="Experience(Years)">
+                    <div class="d-none" id="applicantExp"> 
+                        <label for="experience" class="form-label">Experience</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">
+                                <i class="bi bi-briefcase"></i>
+                            </span>
+                            <input type="number" id="experience" class="form-control" placeholder="Years of Experience(for no experience put 0)">
+                            <div class="invalid-feedback">
+                                Enter your experience
+                            </div>
+                        </div>
                     </div>
 
                     <!-- skills(applicant) -->
-                    <div id="skillContainer">
+                    <div id="skillContainer" class="d-none">
                         <label for="skills" class="form-label">Skills</label>
-                        <div class="border rounded-1 p-2 mb-3">
+                        <div class="border rounded-1 p-2 mb-2">
                             <div class="row g-2">
                                 <div class=" col-12 col-md-3">
                                     <div class="form-check">
-                                        <input type="checkbox" id="html" value="html" class="form-check-input">
+                                        <input type="checkbox" id="html" value="html" name="skills" class="form-check-input">
                                         <label class="form-check-label">HTML</label>
                                     </div>
                                 </div>
                                 
                                 <div class=" col-12 col-md-3">
                                     <div class="form-check">
-                                        <input type="checkbox" id="css" value="css" class="form-check-input">
+                                        <input type="checkbox" id="css" value="css" name="skills" class="form-check-input">
                                         <label class="form-check-label">CSS</label>
                                     </div>
                                 </div>
                                 
                                 <div class=" col-12 col-md-3">
                                     <div class-="form-check">
-                                        <input type="checkbox" id="js" value="js" class="form-check-input">
+                                        <input type="checkbox" id="js" value="js" name="skills" class="form-check-input">
                                         <label class="form-check-label">JAVASCRIPT</label>
                                     </div>
                                 </div>
 
                                 <div class=" col-12 col-md-3">
                                     <div class-="form-check">
-                                        <input type="checkbox" id="angular" value="angular" class="form-check-input">
+                                        <input type="checkbox" id="angular" value="angular" name="skills" class="form-check-input">
                                         <label class="form-check-label">ANGULAR</label>
                                     </div>
                                 </div>
 
                                 <div class=" col-12 col-md-3">
                                     <div class-="form-check">
-                                        <input type="checkbox" id="react" value="react" class="form-check-input">
+                                        <input type="checkbox" id="react" value="react" name="skills" class="form-check-input">
                                         <label class="form-check-label">REACT</label>
                                     </div>
                                 </div>
 
                                 <div class=" col-12 col-md-3">
                                     <div class-="form-check">
-                                        <input type="checkbox" id="c#" value="c#" class="form-check-input">
+                                        <input type="checkbox" id="c#" value="c#" name="skills" class="form-check-input">
                                         <label class="form-check-label">C#</label>
                                     </div>
                                 </div>
                             </div>
                         </div> 
+                        <div class="d-none text-danger mt-1" id="skillError">
+                            Select atleast one skill
+                        </div>
                     </div>   
                     <div class="passwords row g-3 mb-3">
                         <div class="col-12 col-md-6">
@@ -212,6 +234,9 @@
                                     <i class="bi bi-lock"></i>
                                 </span>
                                 <input type="password" id="password" placeholder="Enter password" class="form-control">
+                                <div class="invalid-feedback">
+                                    Password must contain uppercase, lowercase, number and special character.
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
@@ -221,6 +246,9 @@
                                     <i class="bi bi-shield-lock"></i>
                                 </span>
                                 <input type="password" id="confirm" placeholder="Confirm Password" class="form-control">
+                                <div class="invalid-feedback">
+                                    Confirm your password
+                                </div>
                             </div>
                             
                         </div>                        
@@ -235,6 +263,8 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
     <script src="../scripts/signup.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>

@@ -1,5 +1,39 @@
 {
-    "users":[],
-    "jobs":[],
-    "applications":[]
+  "users": [
+    {
+      "Fullname": "Sindhuja S",
+      "Email": "sindhujas388@gmail.com",
+      "Phone": "6384612345",
+      "DateOfBirth": "2006-06-17",
+      "Gender": "female",
+      "Role": "Recruiter",
+      "CompanyName": "ABC pvt ltd",
+      "CompanyLocation": "Coimbatore",
+      "Qualification": "",
+      "Experience": "",
+      "Skills": [],
+      "Password": "11!!aaAA",
+      "id": "AeEJZLlxPmA"
+    },
+    {
+      "Fullname": "Kavya S",
+      "Email": "kavya@gmail.com",
+      "Phone": "6384612345",
+      "DateOfBirth": "2006-06-17",
+      "Gender": "female",
+      "Role": "Applicant",
+      "CompanyName": "",
+      "CompanyLocation": "",
+      "Qualification": "BCA",
+      "Experience": "2",
+      "Skills": [
+        "c#"
+      ],
+      "Password": "11!!aaAA",
+      "id": "yXBwPO8vHt8"
+    }
+  ],
+  "jobs": [],
+  "applications": [],
+  "$schema": "./node_modules/json-server/schema.json"
 }
