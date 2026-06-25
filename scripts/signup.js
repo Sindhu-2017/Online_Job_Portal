@@ -1,5 +1,3 @@
-const API="http://localhost:3000/users";
-
 //fullname validation
 $("#fullname").on("input",function(){
     let namePattern=/^[A-Za-z ]+$/;
@@ -209,15 +207,16 @@ $("#signupForm").on("submit",async function(e){
             $("#experience").addClass("is-invalid").removeClass("is-valid");
             isValid=false;
         }
+        if($("input[name='skills']:checked").length < 1){
+            $("#skillError").removeClass("d-none");
+            isValid=false;
+        }
+
     }
 
     
 
-    if($("input[name='skills']:checked").length < 1){
-        $("#skillError").removeClass("d-none");
-        isValid=false;
-    }
-
+    
     let passPattern=/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$/;
     if(!passPattern.test($("#password").val().trim())){
          $("#password").addClass("is-invalid").removeClass("is-valid");
@@ -259,7 +258,7 @@ $("#signupForm").on("submit",async function(e){
 
     try{
         await $.ajax({
-            url:API,
+            url:API.users,
             method:"POST",
             contentType:"application/json",
             data:JSON.stringify(users)

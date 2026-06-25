@@ -3,9 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Applicant Dashboard</title>
+    <link rel="stylesheet" href="../styles/applicant_dashboard.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 <body>
+
+    <div id="sidebar">
+        
+        <h2 class="fw-bold fs-2 text-center"><i class="bi bi-briefcase-fill text-warning fs-3 me-2"></i>Hirehub</h2>
+
+        <a class="ms-2 fs-5" id="jobSidebar"><i class="bi bi-clipboard2-check-fill me-2"></i>Jobs</a>
+        <a class="ms-2 fs-5" id="appSidebar"><i class="bi bi-file-earmark-person-fill me-2"></i>Applied Jobs</a>
+        <a class="ms-2 fs-5" id="deactivate"><i class="bi bi-person-x-fill me-2"></i>Deactivate</a>
+        <a class="btn btn-danger fw-bold p-2" id="logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a> 
+
+    </div>
+    <div id="main-container">
+        <div class="top-bar">
     
+            <button class="btn me-2 fs-5" id="themeBtn"><i class="bi bi-moon-stars-fill"></i></button>
+            <button class="btn me-2 fs-5" id="accBtn" data-bs-toggle="offcanvas" data-bs-target="#myAcc"><i class="bi bi-person-fill"></i></button>
+
+        </div>
+
+        <div class="container-fluid ms-5 mt-5" id="mainCards">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <div class="card shadow w-75"  id="appCard">
+                        <div class="card-body text-center">
+                            <a class="text-center text-decoration-none fs-3 fw-bold">
+                                Applied<span class="badge bg-danger ms-2" id="appCount">0</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card shadow w-75"  id="selectedCard">
+                        <div class="card-body text-center">
+                            <a class="text-center text-decoration-none fs-3 fw-bold">
+                                Selected<span class="badge bg-danger ms-2" id="selectCount">0</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card shadow w-75"  id="shortCard">
+                        <div class="card-body text-center">
+                            <a class="text-center text-decoration-none fs-3 fw-bold">
+                                Shortlisted<span class="badge bg-danger ms-2" id="shortCount">0</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card shadow w-75"  id="rejectCard">
+                        <div class="card-body text-center">
+                            <a class="text-center text-decoration-none fs-3 fw-bold">
+                                Rejected<span class="badge bg-danger ms-2" id="rejectCount">0</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- job container -->
+        <div class="container-fluid mt-5 d-none" id="jobContainer">
+            <div class="table-responsive" id="jobTable">
+                <table class="table table-bordered table-hover table-striped">
+
+                    <thead>
+                        <tr class="text-center">
+                            <th>Job Title</th>
+                            <th>Company Name</th>
+                            <th>Location</th>
+                            <th>Salary</th>
+                            <th>Posted Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+
+                        </tr>  
+                    </thead>
+                    <tbody id="jobTBody">
+
+                    </tbody>
+
+                </table>
+            </div>            
+        </div>
+        
+
+        
+    </div>
+     
+    <!-- account offcanvas -->
+
+    <div class="offcanvas offcanvas-end" id="myAcc">
+        <div class="offcanvas-header">
+            <h2 class="offcanvas-title">My Account</h2>
+            <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+
+        <div class="offcanvas-body">
+            <p><strong>Fullname :</strong><span id="fullname"></span></p>
+            <p><strong>Date Of Birth:</strong> <span id="dob"></span></p>
+            <p><strong>Email: </strong><span id="email"></span></p>
+            <p><strong>Qualification:</strong><span id="qual"></span></p> 
+            <p><strong>Experience:</strong><span id="exp"></span></p> 
+        </div>
+        
+        <a class="btn btn-danger fw-bold p-2 m-3" id="logoutModal"><i class="bi bi-box-arrow-right me-2"></i>Logout</a> 
+
+
+    </div>
+
+
+
+    
+    <script src="../scripts/config.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>  
+    <script src="../scripts/applicant_dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>

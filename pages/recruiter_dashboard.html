@@ -3,9 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Recruiter Dashboard</title>
+    <link rel="stylesheet" href="../styles/recruiter_dashboard.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 <body>
+
+    <div id="sidebar">
+        
+        <h2 class="fw-bold fs-2 text-center"><i class="bi bi-briefcase-fill text-warning fs-3 me-2"></i>Hirehub</h2>
+
+        <a class="ms-2 fs-5" id="jobSidebar"><i class="bi bi-clipboard2-check-fill me-2"></i>Jobs</a>
+        <a class="ms-2 fs-5" id="appSidebar"><i class="bi bi-file-earmark-person-fill me-2"></i>Applications</a>
+        <a class="ms-2 fs-5" id="deactivate"><i class="bi bi-person-x-fill me-2"></i>Deactivate</a>
+        <a class="btn btn-danger fw-bold p-2" id="logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a> 
+
+    </div>
+    <div id="main-container">
+        <div class="top-bar">
+            <button class="btn me-2 fs-5" id="postBtn" data-bs-toggle="modal" data-bs-target="#postJob"><i class="bi bi-folder-plus me-2"></i>Post</button>
+            <button class="btn me-2 fs-5" id="themeBtn"><i class="bi bi-moon-stars-fill"></i></button>
+            <button class="btn me-2 fs-5" id="accBtn" data-bs-toggle="offcanvas" data-bs-target="#myAcc"><i class="bi bi-person-fill"></i></button>
+
+        </div>
+
+        <div class="container-fluid ms-5 mt-5" id="mainCards">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="card shadow w-75"  id="appCard">
+                        <div class="card-body text-center">
+                            <a class="text-center text-decoration-none fs-3 fw-bold">
+                                Application<span class="badge bg-danger ms-2" id="appCount">0</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card shadow w-75"  id="postedCard">
+                        <div class="card-body text-center">
+                            <a class="text-center text-decoration-none fs-3 fw-bold">
+                                Posted Jobs<span class="badge bg-danger ms-2" id="postCount">0</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- job container -->
+        <div class="container-fluid mt-5 d-none" id="jobContainer">
+            <div class="table-responsive" id="jobTable">
+                <table class="table table-bordered table-hover table-striped">
+
+                    <thead>
+                        <tr class="text-center">
+                            <th>Job Title</th>
+                            <th>Description</th>
+                            <th>Salary</th>
+                            <th>Job Type</th>
+                            <th>Posted Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+
+                        </tr>  
+                    </thead>
+                    <tbody id="jobTBody">
+
+                    </tbody>
+
+                </table>
+            </div>            
+        </div>
+
+        <!-- Application container -->
+        <div class="container-fluid mt-5 d-none  w-75" id="appContainer">
+            <div class="table-responsive" id="appTable">
+                <table class="table table-bordered table-hover table-striped">
+
+                    <thead>
+                        <tr class="text-center">
+                            <th>Job Name</th>
+                            <th>Applicant Name</th>
+                            <th>Applied Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+
+                        </tr>  
+                    </thead>
+                    <tbody id="appTBody">
+
+                    </tbody>
+
+                </table>
+            </div>            
+        </div>
+    </div>
+
+
+    <!-- Posting a job modal -->
+    <div class="modal fade" id="postJob">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title ls-1"><i class="bi bi-folder-plus me-2"></i>Post Job</h2>
+                    <button class="btn-close " data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- Company Name -->
+                    <label class="form-label mb-2 mt-3" for="compName">Company Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-building-fill"></i></span>
+                        <input type="text" class="form-control" id="compName" placeholder="Company Name">
+                    </div>
+
+                    <!-- Company Location -->
+                    <label class="form-label mb-2 mt-3" for="compLocation">Company Location</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
+                        <input type="text" class="form-control" id="compLocation" placeholder="Company Name">
+                    </div>
+
+                    <!-- Job Title -->
+                    <label class="form-label mb-2 mt-3" for="jobTitle">Job Title</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-clipboard2-check-fill"></i></span>
+                        <input type="text" class="form-control" id="jobTitle" placeholder="Job Title">
+                    </div>
+
+                    <!-- job description -->
+                    <label class="form-label mb-2 mt-3" for="description">Description</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+                        <textarea class="form-control" id="description" placeholder="Description"></textarea>
+                    </div>
+
+                    <!-- Salary -->
+                    <label class="form-label mb-2 mt-3" for="salary">Salary</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-cash-stack"></i></span>
+                        <input type="number" class="form-control" id="salary" placeholder="Salary">
+                    </div>
+
+                    <!-- job type -->
+                    <label class="form-label mb-2 mt-3" for="jobType">Job Type</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-list-check"></i></span>
+                        <select id="jobType" class="form-select">
+                            <option value="">Select Jobtype</option>
+                            <option value="FullTime">Full Time</option>
+                            <option value="PartTime">Part Time</option>
+                        </select>
+                    </div>
+
+                    <!-- job status -->
+                    <label class="form-label mb-2 mt-3" for="status">Status</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-check-circle-fill"></i></span>
+                        <select id="status" class="form-select">
+                            <option value="">Select Job Status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>                    
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary w-100" id="postJobBtn"><i class="bi bi-send-fill me-2"></i>Post</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- view applicant modal -->
+    <div class="modal fade" id="viewApplicant">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title ls-1">View Applicant</h2>
+                    <button class="btn-close " data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p><b>Fullname      :</b><span id="appfullname"></span></p>
+                    <p><b>Email      :</b><span id="appemail"></span></p>
+                    <p><b>Phone      :</b><span id="appphone"></span></p>
+                    <p><b>DateOfBirth      :</b><span id="appdob"></span></p>
+                    <p><b>Gender      :</b><span id="appgender"></span></p>
+                    <p><b>Qualification      :</b><span id="appqualification"></span></p>
+                    <p><b>Experience      :</b><span id="appexperience"></span></p>
+                    <p><b>Skills     :</b><span id="appskills"></span></p>            
+            </div>
+            <div class="modal-footer">
+                <select id="ApplicationStatus" class="form-select">
+                    <option value="">Edit Status</option>
+                    <option value="ShortListed">Short Listed</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Selected">Selected</option>
+                </select>
+
+                <button class="btn btn-primary w-100" id="updateBtn">Update</button>
+            </div>
+        </div>
+
+    </div>
+     
+    <!-- account offcanvas -->
+
+    <div class="offcanvas offcanvas-end" id="myAcc">
+        <div class="offcanvas-header">
+            <h2 class="offcanvas-title">My Account</h2>
+            <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+
+        <div class="offcanvas-body">
+            <p><strong>Fullname :</strong><span id="fullname"></span></p>
+            <p><strong>Date Of Birth:</strong> <span id="dob"></span></p>
+            <p><strong>Role: </strong><span id="role"></span></p>
+            <p><strong>CompanyName:</strong><span id="compNam"></span></p> 
+            <p><strong>CompanyLocation:</strong><span id="compLoc"></span></p> 
+        </div>
+        
+        <a class="btn btn-danger fw-bold p-2 m-3" id="logoutModal"><i class="bi bi-box-arrow-right me-2"></i>Logout</a> 
+
+
+    </div>
     
+    <script src="../scripts/config.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>  
+    <script src="../scripts/recruiter_dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -13,7 +13,8 @@
       "Experience": "",
       "Skills": [],
       "Password": "11!!aaAA",
-      "id": "AeEJZLlxPmA"
+      "id": "AeEJZLlxPmA",
+      "Status": "active"
     },
     {
       "Fullname": "Kavya S",
@@ -31,9 +32,45 @@
       ],
       "Password": "11!!aaAA",
       "id": "yXBwPO8vHt8"
+    },
+    {
+      "Fullname": "Danu Sree S",
+      "Email": "danu@gmail.com",
+      "Phone": "1234567890",
+      "DateOfBirth": "2008-06-07",
+      "Gender": "female",
+      "Role": "Recruiter",
+      "CompanyName": "G2 tech ltd",
+      "CompanyLocation": "Coimbatore",
+      "Qualification": "",
+      "Experience": "",
+      "Skills": [],
+      "Password": "11!!aaAA",
+      "id": "jo5lff5tTGo"
     }
   ],
-  "jobs": [],
-  "applications": [],
+  "jobs": [
+    {
+      "CompanyName": "G2",
+      "CompanyLocation": "Coimbatore",
+      "JobTitle": "Full Stack Developer",
+      "Description": "Developing websites",
+      "Salary": "24000",
+      "JobType": "FullTime",
+      "RecruiterID": "AeEJZLlxPmA",
+      "PostedDate": "2026-06-25T08:41:27.042Z",
+      "Status": "active",
+      "id": "e4dl19tWjpI"
+    }
+  ],
+  "applications": [
+    {
+      "JobID": "e4dl19tWjpI",
+      "ApplicantID": "yXBwPO8vHt8",
+      "AppliedDate": "2026-06-25",
+      "ApplicationStatus": "Applied",
+      "id": "28-zMfrqjtM"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

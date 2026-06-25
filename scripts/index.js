@@ -1,5 +1,3 @@
-const API="http://localhost:3000/users";
-
 $("#login").on("click",async function(){
     let email=$("#email").val().trim();
     let password=$("#password").val().trim();
@@ -32,7 +30,7 @@ $("#login").on("click",async function(){
 
     try{
         const response=await $.ajax({
-            url:API,
+            url:API.users,
             method:"GET"
         });
 
@@ -91,8 +89,8 @@ $("#login").on("click",async function(){
     catch(error){
         await Swal.fire({
             icon:"error",
-            title:"Error",
-            text:"Error occurred"
+            title:"Server Error",
+            text:"Cannot able to connect server"
         });
     }
 
