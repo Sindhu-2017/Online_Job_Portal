@@ -31,6 +31,7 @@
         "c#"
       ],
       "Password": "11!!aaAA",
+      "Status": "active",
       "id": "yXBwPO8vHt8"
     },
     {
@@ -46,6 +47,7 @@
       "Experience": "",
       "Skills": [],
       "Password": "11!!aaAA",
+      "Status": "active",
       "id": "jo5lff5tTGo"
     }
   ],
@@ -55,12 +57,36 @@
       "CompanyLocation": "Coimbatore",
       "JobTitle": "Full Stack Developer",
       "Description": "Developing websites",
-      "Salary": "24000",
+      "Skills": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "Salary": "6000",
+      "JobType": "PartTime",
+      "RecruiterID": "AeEJZLlxPmA",
+      "PostedDate": "2026-06-25",
+      "Status": "active",
+      "id": "e4dl19tWjpI",
+      "IsDeleted": false
+    },
+    {
+      "CompanyName": "ABC pvt ltd",
+      "CompanyLocation": "Coimbatore",
+      "JobTitle": "Front end designer",
+      "Description": "looking for front end designer",
+      "Skills": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "Salary": "20000",
       "JobType": "FullTime",
       "RecruiterID": "AeEJZLlxPmA",
-      "PostedDate": "2026-06-25T08:41:27.042Z",
+      "PostedDate": "2026-06-26",
       "Status": "active",
-      "id": "e4dl19tWjpI"
+      "IsDeleted": false,
+      "id": "bWo5RDhNoDU"
     }
   ],
   "applications": [
@@ -68,7 +94,7 @@
       "JobID": "e4dl19tWjpI",
       "ApplicantID": "yXBwPO8vHt8",
       "AppliedDate": "2026-06-25",
-      "ApplicationStatus": "Applied",
+      "ApplicationStatus": "ShortListed",
       "id": "28-zMfrqjtM"
     }
   ],

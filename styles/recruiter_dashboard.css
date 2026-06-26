@@ -28,6 +28,7 @@ body{
 #sidebar a:hover{
     background: #0F172A;
 }
+
 #logout{
     margin:auto 15px 30px 15px;
 }
@@ -80,6 +81,15 @@ body{
 #postedCard:hover a ,#appCard:hover a{
     color: blue;
 }
+.active-card{
+    background: white !important;
+    border:2px solid #2563EB !important;
+    box-shadow:0 8px 20px rgba(37,99,235,.25);
+}
+
+.active-card a{
+    color:#2563EB !important;
+}
 
 .input-group-text{
     background: linear-gradient( 135deg, #1E3A8A, #2563EB);
@@ -111,6 +121,148 @@ body{
 #appTable thead th{
     background: linear-gradient( 135deg, #1E3A8A, #2563EB);
     color:white;
+}
+
+/* Dark Theme */
+.dark-theme{
+    background:#0F172A !important;
+    color:white;
+}
+
+.dark-theme #main-container{
+    background:#0F172A !important;
+}
+
+.dark-theme .card,
+.dark-theme .modal-content,
+.dark-theme .offcanvas,
+.dark-theme .table{
+    background:#24324A;
+    border:1px solid #3B82F6;
+    box-shadow:0 10px 25px rgba(0,0,0,.3);
+}
+
+.dark-theme .table{
+    background:#1E293B;
+    color:white;
+}
+
+.dark-theme .table td,
+.dark-theme .table th{
+    background:#1E293B;
+    color:white;
+}
+
+.dark-theme .form-control,
+.dark-theme .form-select{
+    background:#334155;
+    color:white;
+    border:1px solid #64748B;
+}
+
+.dark-theme .form-control::placeholder{
+    color:#CBD5E1;
+}
+
+.dark-theme .input-group-text{
+    background:#2563EB;
+}
+
+.dark-theme .modal-header{
+    background:#1D4ED8;
+}
+
+.dark-theme .top-bar button{
+    color:white;
+}
+
+.dark-theme #sidebar{
+    background:linear-gradient(180deg,#020617,#0F172A,#1E293B);
+}
+.dark-theme .offcanvas ,.dark-theme .modal-body{
+    color:white;
+}
+
+@media (max-width:992px){
+
+    #sidebar{
+        width:220px;
+    }
+
+    #main-container{
+        margin-left:220px;
+    }
+
+    #mainCards .card{
+        width:100% !important;
+    }
+}
+
+@media (max-width:768px){
+
+    #sidebar{
+        width:100%;
+        height:auto;
+        position:relative;
+    }
+
+    #main-container{
+        margin-left:0;
+    }
+
+    .top-bar{
+        justify-content:center;
+        flex-wrap:wrap;
+    }
+
+    #mainCards .row{
+        justify-content:center;
+    }
+
+    #mainCards .card{
+        width:80% !important;
+        margin-bottom:15px;
+    }
+
+    .table-responsive{
+        font-size:14px;
+    }
+
+    .btn{
+        font-size:14px;
+    }
+}
+
+@media (max-width:576px){
+
+    h2{
+        font-size:24px;
+    }
+
+    .top-bar{
+        gap:8px;
+    }
+
+    #sidebar a{
+        padding:12px;
+        font-size:15px;
+    }
+
+    .table{
+        font-size:13px;
+    }
+
+    .badge{
+        font-size:11px;
+    }
+
+    .modal-dialog{
+        margin:10px;
+    }
+
+    .offcanvas{
+        width:100% !important;
+    }
 }
 
 

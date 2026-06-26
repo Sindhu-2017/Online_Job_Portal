@@ -146,63 +146,50 @@ async function applyJob(id){
 
 
 
+//setting status to inavtive
+document.getElementById("deactivate").addEventListener("click",async function(e){
+
+    e.preventDefault();
+
+    const newStatus=loggedInUser.Status === "active"?"inactive":"active";
+    const actDeact=newStatus ==="active" ?"Activate" :"Deactivate";
+    try{    
+        const result=await Swal.fire({
+            icon:"question",
+            text:`Are you sure to ${actDeact} your account?`,
+            title:`${actDeact} Account`,
+            showCancelButton:true,
+            confirmButtonText:"Yes",
+            cancelButtonText:"No"
+        });
+        if(result.isConfirmed){
+
+            await fetch(`${API.users}/${loggedInUser.id}`,{
+                method:"PATCH",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({Status:newStatus})
+            })
+
+            loggedInUser.Status=newStatus;
+            localStorage.setItem("loggedInUser",JSON.stringify(loggedInUser));
+
+            await Swal.fire({
+                icon:"success",
+                title:`${actDeact}d`,
+                text:`Account ${actDeact}d Succesfully`
+            });
+
+            window.location.reload();
+        }
+    }
+    catch(err){
+        await Swal.fire({
+            icon:"error",
+            title:"error",
+            text:"Error occurred"
+        });
+
+    }
+});
+
 loadJobs();
-
-
-
-
-
-
-
-
-
-
-
-
-
-//applied jobs
-// async function appliedJobs(){
-//     let res=await fetch(API.applications);
-//     let applications=await res.json();
-
-//     let filteredApplications=applications.filter(app=>app.ApplicantID === loggedInUser.id)
-    
-//     let response=await fetch(API.jobs);
-//     let jobs=await response.json();
-
-//     let appliedJobs=filteredApplications.map(appId=>app.JobID);
-
-//     let filteredJobs=jobs.filter(jobs=>appliedJobs.includes(JobID));
-
-//     document.getElementById("appCount").innerText=filteredApplications.length;
-//     let tablebody="";
-
-//     filteredJobs.forEach(job=>{
-//         tablebody+=`
-//         <tr>
-//             <td>${job.JobTitle}</td>
-//             <td>${job.CompanyName}</td>
-//             <td>${job.CompanyLocation}</td>
-//             <td>${job.Salary}</td>          
-//             <td>${job.PostedDate}</td>
-//             <td>${job.Status}</td>
-//             <td class="text-center">
-//                 <button class="btn btn-danger">View</button>
-//                 <button class="btn btn-danger">Apply</button>
-//             </td>
-
-
-//         </tr>
-//         `;
-//         document.getElementById("jobContainer").innerHTML=tablebody;
-//     })
-
-// }
-
-// document.getElementById("appCard").addEventListener("click",function(){
-//     document.getElementById("jobContainer").classList.remove("d-none");
-//     document.getElementById("jobContainer").classList.add("d-block");
-
-//     document.getElementById("appContainer").classList.add("d-none");
-
-// });

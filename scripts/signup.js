@@ -253,7 +253,8 @@ $("#signupForm").on("submit",async function(e){
         Skills:$("input[name='skills']:checked").map(function(){
             return $(this).val()
         }).get(),
-        Password:$("#password").val()
+        Password:$("#password").val(),
+        Status:"active"
     }
 
     try{

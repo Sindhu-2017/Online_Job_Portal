@@ -1,6 +1,7 @@
-
+//get user details from localstorage based on login
 const loggedInUser=JSON.parse(localStorage.getItem("loggedInUser"));
-// console.log(loggedInUser.Fullname);
+let editId=null;
+
 //offcanvas data 
 document.getElementById("fullname").innerText=loggedInUser.Fullname;
 document.getElementById("dob").innerText=loggedInUser.DateOfBirth;
@@ -58,21 +59,40 @@ document.getElementById("logoutModal").addEventListener("click",async function(e
     }
 });
 
+//deactivate button
+const activateBtn=document.getElementById("deactivate");
+
+if(loggedInUser.Status === "active"){
+    activateBtn.innerHTML=`<i class="bi bi-person-x-fill me-2"></i>Deactivate`;
+}
+else{
+    activateBtn.innerHTML=`<i class="bi bi-person-check-fill me-2"></i>Activate`;
+}
+//loading company name and location
+document.getElementById("postBtn").addEventListener("click",function(){
+    document.getElementById("compName").value=loggedInUser.CompanyName;
+    document.getElementById("compLocation").value=loggedInUser.CompanyLocation;
+});
+
 //posting job 
 document.getElementById("postJobBtn").addEventListener("click",async function(){
-
+    
+    
     const CompanyName=document.getElementById("compName").value;
     const CompanyLocation=document.getElementById("compLocation").value;
     const JobTitle=document.getElementById("jobTitle").value;
     const Description=document.getElementById("description").value;
+    const skills=[...document.querySelectorAll(".skill:checked")].map(skill=>skill.value);
     const Salary=document.getElementById("salary").value;
     const JobType=document.getElementById("jobType").value;
     const Status=document.getElementById("status").value;
 
     const recruiterId=loggedInUser.id;
-    const today=new Date();
+    const today=new Date().toISOString().split("T")[0];
 
-    if(!CompanyName || !CompanyLocation || !JobTitle || !Description || !Salary || !JobType || !Status){
+    
+
+    if(!CompanyName || !CompanyLocation || !JobTitle || !Description || skills.length === 0 || !Salary || !JobType || !Status){
         await Swal.fire({
             icon:"warning",
             title:"Missing fields",
@@ -87,11 +107,13 @@ document.getElementById("postJobBtn").addEventListener("click",async function(){
         CompanyLocation:CompanyLocation,
         JobTitle:JobTitle,
         Description:Description,
+        Skills:skills,
         Salary:Salary,
         JobType:JobType,
         RecruiterID:recruiterId,
         PostedDate:today,
-        Status:Status
+        Status:Status,
+        IsDeleted:false
     }
     try{
         const result=await Swal.fire({
@@ -104,17 +126,40 @@ document.getElementById("postJobBtn").addEventListener("click",async function(){
             confirmButtonText:"Yes,Post it"
         });
         if(result.isConfirmed){
-            await fetch(API.jobs,{
-                method:"POST",
-                headers:{"Content-Type":"application/json"},
-                body:JSON.stringify(Jobs)
-            });
 
-            await Swal.fire({
-                icon:"success",
-                title:"Posted",
-                text:"Job posted successfullly",
-            });
+            if(editId ===  null){
+                await fetch(API.jobs,{
+                    method:"POST",
+                    headers:{"Content-Type":"application/json"},
+                    body:JSON.stringify(Jobs)
+                });
+
+                await Swal.fire({
+                    icon:"success",
+                    title:"Posted",
+                    text:"Job posted successfullly",
+                });
+            }
+            else{
+                await fetch(`${API.jobs}/${editId}`,{
+                    method:"PATCH",
+                    headers:{"Content-Type":"application/json"},
+                    body:JSON.stringify(Jobs)
+                });
+
+                await Swal.fire({
+                    icon:"success",
+                    title:"Updated",
+                    text:"Job updated successfullly",
+                });
+
+                editId = null;
+                document.getElementById("modalTitle").innerText ="Post Job";
+                document.getElementById("postJobBtn").innerText ="Post";
+            }
+            bootstrap.Modal.getOrCreateInstance(document.getElementById("postJob")).hide();
+
+            loadJobs();
         }
 
     }
@@ -129,28 +174,31 @@ document.getElementById("postJobBtn").addEventListener("click",async function(){
 });
 
 
+//  <td>${job.Description}</td>
 // displaying jobs
 async function loadJobs(){
     let response=await fetch(API.jobs);
     let jobs=await response.json();
     
-    let filteredJobs = jobs.filter(job=>job.RecruiterID === loggedInUser.id);
+    let filteredJobs = jobs.filter(job=>job.RecruiterID === loggedInUser.id && job.IsDeleted !== true);
 
     document.getElementById("postCount").innerText=filteredJobs.length;
+
+    filteredJobs.sort((a,b)=>new Date(b.PostedDate)-new Date(a.PostedDate))
     let tablebody="";
 
     filteredJobs.forEach(job=>{
         tablebody+=`
         <tr>
             <td>${job.JobTitle}</td>
-            <td>${job.Description}</td>
+            <td>${job.Skills.join(",")}</td>
             <td>${job.Salary}</td>
             <td>${job.JobType}</td>
             <td>${job.PostedDate}</td>
             <td>${job.Status}</td>
             <td class="text-center">
-                <button class="btn btn-danger">Edit</button>
-                <button class="btn btn-danger">Delete</button>
+                <button class="btn btn-danger" onclick="editJob('${job.id}')">Edit</button>
+                <button class="btn btn-danger" onclick="deleteJob('${job.id}')">Delete</button>
             </td>
 
 
@@ -177,9 +225,69 @@ document.getElementById("jobSidebar").addEventListener("click",function(){
 
 });
 
+//edit job
+async function editJob(id) {
+     editId=id;
+     
+     let response=await fetch(`${API.jobs}/${id}`);
+     let jobs=await response.json();
+
+     document.getElementById("compName").value=jobs.CompanyName;
+     document.getElementById("compLocation").value=jobs.CompanyLocation;
+     document.getElementById("jobTitle").value=jobs.JobTitle;
+     document.getElementById("description").value=jobs.Description;
+     document.getElementById("description").value=jobs.Description;
+    document.querySelectorAll(".skill").forEach(skill=>{
+        skill.checked=jobs.Skills.includes(skill.value);
+    })
+     document.getElementById("salary").value=jobs.Salary;
+     document.getElementById("jobType").value=jobs.JobType;
+     document.getElementById("status").value=jobs.Status;
+
+     document.getElementById("modalTitle").innerText ="Update Job Details";
+     document.getElementById("postJobBtn").innerText ="Update";
+
+    const modal=bootstrap.Modal.getOrCreateInstance(document.getElementById("postJob"));
+    modal.show();
+
+}
+
+//delete job
+async function deleteJob(id) {
+    const result=await Swal.fire({
+        icon:"question",
+        title:"Delete",
+        text:"Are you sure,You want to delete?",
+        showCancelButton:true,
+        confirmButtonColor:"#3085d6",
+        cancelButtonColor:"#d33",
+        confirmButtonText:"Yes,Delete it"
+        }) ;
+    if(result.isConfirmed){
+        await fetch(`${API.jobs}/${id}`,{
+            method:"PATCH",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({IsDeleted:true})
+        });
+
+        await Swal.fire({
+            icon:"success",
+            title:"Deleted",
+            text:"Deleted Successfully!"
+        });
+        loadJobs();
+
+    }    
+}
+
 
 //displaying applications
-async function loadApplication(){
+async function loadApplication(status){
+
+    document.getElementById("appContainer").classList.remove("d-none");
+    document.getElementById("appContainer").classList.add("d-block");
+    document.getElementById("jobContainer").classList.add("d-none");
+    
     let response=await fetch(API.applications);
     let applications=await response.json();
 
@@ -189,18 +297,27 @@ async function loadApplication(){
     let resp=await fetch(API.jobs);
     let jobs=await resp.json();
 
+    //jobs based on recruiter
     let recruiterJobs=jobs.filter(job=>job.RecruiterID === loggedInUser.id);
 
+    //job and application based on recruiter
     let recruiterApplications=applications.filter(
         app=>recruiterJobs.some(job=>job.id === app.JobID));
 
     document.getElementById("appCount").innerText=recruiterApplications.length;
     const viewModal=document.getElementById("viewApplicant");
-    
-    
+
+    let filteredappl="";
+    if(status){
+        filteredappl=recruiterApplications.filter(appl=>appl.ApplicationStatus.toLowerCase() === status.toLowerCase());
+    }
+    else{
+        filteredappl=recruiterApplications;
+    }
+      
     let tablebody="";
 
-    recruiterApplications.forEach(appl=>{
+    filteredappl.forEach(appl=>{
 
         const job=recruiterJobs.find(job=>job.id === appl.JobID);
         const user=users.find(user=>user.id === appl.ApplicantID);
@@ -213,17 +330,15 @@ async function loadApplication(){
             <td>${appl.ApplicationStatus}</td>
             <td class="text-center">
                 <button class="btn btn-danger" onclick="viewApplicant('${appl.ApplicantID}')" 
-                data-bs-toggle="modal" data-bs-target="#viewApplicant">View</button>
-                
+                data-bs-toggle="modal" data-bs-target="#viewApplicant">View</button>                
             </td>
-
-
         </tr>
         `;
-        document.getElementById("appTBody").innerHTML=tablebody;
-    })
+    });
+    document.getElementById("appTBody").innerHTML=tablebody;
+
 }
-// <button class="btn btn-danger">Edit</button>
+
 
 document.getElementById("appCard").addEventListener("click",function(){
     document.getElementById("appContainer").classList.remove("d-none");
@@ -236,7 +351,6 @@ document.getElementById("appCard").addEventListener("click",function(){
 document.getElementById("appSidebar").addEventListener("click",function(){
     document.getElementById("appContainer").classList.remove("d-none");
     document.getElementById("appContainer").classList.add("d-block");
-
     document.getElementById("jobContainer").classList.add("d-none");
 
 })
@@ -259,7 +373,7 @@ async function viewApplicant(id){
 
     
 
-    document.getElementById("updateBtn").addEventListener("click",function(){
+    document.getElementById("updateBtn").addEventListener("click",async function(){
 
         const status=document.getElementById("ApplicationStatus").value;
         let res=await fetch(API.applications);
@@ -267,29 +381,55 @@ async function viewApplicant(id){
 
         let application=app.find(app=>app.ApplicantID === id)
 
-            await fetch(`${API.applications}/${application.id}`,{
-                method:"PATCH",
-                headers:{"Content-Type":"application/json"},
-                body:JSON.stringify({ApplicationStatus:status})
-            });
-                  
+        try{
+            const result=await Swal.fire({
+                icon:"question",
+                title:"Update",
+                text:"Are you sure,You want to update?",
+                showCancelButton:true,
+                confirmButtonColor:"#3085d6",
+                cancelButtonColor:"#d33",
+                confirmButtonText:"Yes,Update it"
+            }) 
 
+            if(result.isConfirmed){
 
+                await fetch(`${API.applications}/${application.id}`,{
+                    method:"PATCH",
+                    headers:{"Content-Type":"application/json"},
+                    body:JSON.stringify({ApplicationStatus:status})
+                });
+                await Swal.fire({
+                    icon:"success",
+                    title:"Status Updated",
+                    text:"Application Status Updated Successfully!"
+                });
+            }
+        }
+        catch(error){
+           await Swal.fire({
+                    icon:"error",
+                    title:"error",
+                    text:"Unable to update the status"
+            }); 
+        }              
     });
-
-
 }
+
 
 
 //setting status to inavtive
 document.getElementById("deactivate").addEventListener("click",async function(e){
 
     e.preventDefault();
+
+    const newStatus=loggedInUser.Status === "active"?"inactive":"active";
+    const actDeact=newStatus ==="active" ?"Activate" :"Deactivate";
     try{    
         const result=await Swal.fire({
             icon:"question",
-            text:"Are you sure to deactivate your account?",
-            title:"Deactivating Account",
+            text:`Are you sure to ${actDeact} your account?`,
+            title:`${actDeact} Account`,
             showCancelButton:true,
             confirmButtonText:"Yes",
             cancelButtonText:"No"
@@ -299,13 +439,19 @@ document.getElementById("deactivate").addEventListener("click",async function(e)
             await fetch(`${API.users}/${loggedInUser.id}`,{
                 method:"PATCH",
                 headers:{"Content-Type":"application/json"},
-                body:JSON.stringify({Status:"inactive"})
+                body:JSON.stringify({Status:newStatus})
             })
+
+            loggedInUser.Status=newStatus;
+            localStorage.setItem("loggedInUser",JSON.stringify(loggedInUser));
+
             await Swal.fire({
                 icon:"success",
-                title:"Deactivating",
-                text:"Account deacivated Succesfully"
+                title:`${actDeact}d`,
+                text:`Account ${actDeact}d Succesfully`
             });
+
+            window.location.reload();
         }
     }
     catch(err){
@@ -320,3 +466,41 @@ document.getElementById("deactivate").addEventListener("click",async function(e)
 
 loadJobs();
 loadApplication();
+
+const themeBtn = document.getElementById("themeBtn");
+
+// Load saved theme
+if(localStorage.getItem("theme") === "dark"){
+    document.body.classList.add("dark-theme");
+    themeBtn.innerHTML = '<i class="bi bi-sun-fill"></i>';
+}
+
+// Toggle theme
+themeBtn.addEventListener("click",function(){
+
+    document.body.classList.toggle("dark-theme");
+
+    if(document.body.classList.contains("dark-theme")){
+        localStorage.setItem("theme","dark");
+        themeBtn.innerHTML='<i class="bi bi-sun-fill"></i>';
+    }
+    else{
+        localStorage.setItem("theme","light");
+        themeBtn.innerHTML='<i class="bi bi-moon-stars-fill"></i>';
+    }
+
+});
+
+//active card
+const postedCard = document.getElementById("postedCard");
+const appCard = document.getElementById("appCard");
+
+postedCard.addEventListener("click", function () {
+    postedCard.classList.add("active-card");
+    appCard.classList.remove("active-card");
+});
+
+appCard.addEventListener("click", function () {
+    appCard.classList.add("active-card");
+    postedCard.classList.remove("active-card");
+});
