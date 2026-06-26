@@ -1,3 +1,27 @@
+const themeBtn = document.getElementById("themeBtn");
+
+// Load saved theme
+if(localStorage.getItem("theme") === "dark"){
+    document.body.classList.add("dark-theme");
+    themeBtn.innerHTML = '<i class="bi bi-sun-fill"></i>';
+}
+
+// Toggle theme
+themeBtn.addEventListener("click",function(){
+
+    document.body.classList.toggle("dark-theme");
+
+    if(document.body.classList.contains("dark-theme")){
+        localStorage.setItem("theme","dark");
+        themeBtn.innerHTML='<i class="bi bi-sun-fill"></i>';
+    }
+    else{
+        localStorage.setItem("theme","light");
+        themeBtn.innerHTML='<i class="bi bi-moon-stars-fill"></i>';
+    }
+
+});
+
 //get user details from localstorage based on login
 const loggedInUser=JSON.parse(localStorage.getItem("loggedInUser"));
 let editId=null;
@@ -47,6 +71,7 @@ document.getElementById("logoutModal").addEventListener("click",async function(e
         localStorage.removeItem("loggedInUser");
         await Swal.fire({
             toast:true,
+            position:"top-end",
             icon:"success",
             text:"logout sucessfully ,redirecting...",
             showCancelButton:false,
@@ -68,6 +93,7 @@ if(loggedInUser.Status === "active"){
 else{
     activateBtn.innerHTML=`<i class="bi bi-person-check-fill me-2"></i>Activate`;
 }
+
 //loading company name and location
 document.getElementById("postBtn").addEventListener("click",function(){
     document.getElementById("compName").value=loggedInUser.CompanyName;
@@ -174,9 +200,9 @@ document.getElementById("postJobBtn").addEventListener("click",async function(){
 });
 
 
-//  <td>${job.Description}</td>
 // displaying jobs
 async function loadJobs(){
+
     let response=await fetch(API.jobs);
     let jobs=await response.json();
     
@@ -184,7 +210,12 @@ async function loadJobs(){
 
     document.getElementById("postCount").innerText=filteredJobs.length;
 
-    filteredJobs.sort((a,b)=>new Date(b.PostedDate)-new Date(a.PostedDate))
+    const search=document.getElementById("searchBox").value.toLowerCase();
+    filteredJobs=filteredJobs.filter(job=> job.JobTitle.toLowerCase().includes(search) ||
+                   job.JobType.toLowerCase().includes(search));
+
+    filteredJobs.sort((a,b)=>new Date(b.PostedDate)-new Date(a.PostedDate));
+
     let tablebody="";
 
     filteredJobs.forEach(job=>{
@@ -204,26 +235,10 @@ async function loadJobs(){
 
         </tr>
         `;
-        document.getElementById("jobTBody").innerHTML=tablebody;
-    })
-
+    });
+    document.getElementById("jobTBody").innerHTML=tablebody;
 }
 
-document.getElementById("postedCard").addEventListener("click",function(){
-    document.getElementById("jobContainer").classList.remove("d-none");
-    document.getElementById("jobContainer").classList.add("d-block");
-
-    document.getElementById("appContainer").classList.add("d-none");
-
-});
-
-document.getElementById("jobSidebar").addEventListener("click",function(){
-    document.getElementById("jobContainer").classList.remove("d-none");
-    document.getElementById("jobContainer").classList.add("d-block");
-
-    document.getElementById("appContainer").classList.add("d-none");
-
-});
 
 //edit job
 async function editJob(id) {
@@ -315,6 +330,8 @@ async function loadApplication(status){
         filteredappl=recruiterApplications;
     }
       
+    filteredappl.sort((a,b)=>new Date(b.AppliedDate)-new Date(a.AppliedDate))
+
     let tablebody="";
 
     filteredappl.forEach(appl=>{
@@ -339,21 +356,6 @@ async function loadApplication(status){
 
 }
 
-
-document.getElementById("appCard").addEventListener("click",function(){
-    document.getElementById("appContainer").classList.remove("d-none");
-    document.getElementById("appContainer").classList.add("d-block");
-
-    document.getElementById("jobContainer").classList.add("d-none");
-
-})
-
-document.getElementById("appSidebar").addEventListener("click",function(){
-    document.getElementById("appContainer").classList.remove("d-none");
-    document.getElementById("appContainer").classList.add("d-block");
-    document.getElementById("jobContainer").classList.add("d-none");
-
-})
 
 //view applicant
 async function viewApplicant(id){
@@ -464,43 +466,175 @@ document.getElementById("deactivate").addEventListener("click",async function(e)
     }
 });
 
+//initial load
 loadJobs();
 loadApplication();
 
-const themeBtn = document.getElementById("themeBtn");
 
-// Load saved theme
-if(localStorage.getItem("theme") === "dark"){
-    document.body.classList.add("dark-theme");
-    themeBtn.innerHTML = '<i class="bi bi-sun-fill"></i>';
-}
+//for app card and app sidebar
 
-// Toggle theme
-themeBtn.addEventListener("click",function(){
+document.getElementById("appCard").addEventListener("click",function(){
+    document.getElementById("appContainer").classList.remove("d-none");
+    document.getElementById("appContainer").classList.add("d-block");
+    document.getElementById("deletedContainer").classList.add("d-none");
 
-    document.body.classList.toggle("dark-theme");
 
-    if(document.body.classList.contains("dark-theme")){
-        localStorage.setItem("theme","dark");
-        themeBtn.innerHTML='<i class="bi bi-sun-fill"></i>';
-    }
-    else{
-        localStorage.setItem("theme","light");
-        themeBtn.innerHTML='<i class="bi bi-moon-stars-fill"></i>';
-    }
+    document.getElementById("jobContainer").classList.add("d-none");
 
+    clearSidebars();
+})
+
+document.getElementById("appSidebar").addEventListener("click",function(){
+    document.getElementById("appContainer").classList.remove("d-none");
+    document.getElementById("appSidebar").classList.add("active-side");
+    searchContainer.classList.add("d-none");
+
+    document.getElementById("jobContainer").classList.add("d-none");
+    document.getElementById("jobSidebar").classList.remove("active-side");
+
+    clearActiveCards();
+})
+
+// job sidebar and card
+
+document.getElementById("postedCard").addEventListener("click",function(){
+    document.getElementById("jobContainer").classList.remove("d-none");
+    document.getElementById("jobContainer").classList.add("d-block");
+    document.getElementById("deletedContainer").classList.add("d-none");
+
+    
+    document.getElementById("appContainer").classList.add("d-none");
+    clearSidebars();
 });
+
+document.getElementById("deletedCard").addEventListener("click",function(){
+    document.getElementById("deletedContainer").classList.remove("d-none");
+    document.getElementById("deletedContainer").classList.add("d-block");
+    
+    document.getElementById("appContainer").classList.add("d-none");
+    document.getElementById("jobContainer").classList.add("d-none");
+
+    clearSidebars();
+    loadDeletedJob();
+});
+
+document.getElementById("jobSidebar").addEventListener("click",function(){
+    document.getElementById("jobContainer").classList.remove("d-none");
+    document.getElementById("jobSidebar").classList.add("active-side");
+    searchContainer.classList.remove("d-none");
+
+
+    document.getElementById("appContainer").classList.add("d-none");
+    document.getElementById("appSidebar").classList.remove("active-side");
+
+    clearActiveCards();
+});
+
 
 //active card
 const postedCard = document.getElementById("postedCard");
 const appCard = document.getElementById("appCard");
+const deletedCard = document.getElementById("deletedCard");
+
+const searchContainer=document.getElementById("searchContainer");
 
 postedCard.addEventListener("click", function () {
     postedCard.classList.add("active-card");
     appCard.classList.remove("active-card");
+    deletedCard.classList.remove("active-card");
+    searchContainer.classList.remove("d-none");
 });
 
 appCard.addEventListener("click", function () {
     appCard.classList.add("active-card");
     postedCard.classList.remove("active-card");
+    deletedCard.classList.remove("active-card");
+    searchContainer.classList.add("d-none");
 });
+
+deletedCard.addEventListener("click", function () {
+    deletedCard.classList.add("active-card");
+    appCard.classList.remove("active-card");
+    postedCard.classList.remove("active-card");
+    searchContainer.classList.add("d-none");
+
+});
+
+function clearActiveCards(){
+    appCard.classList.remove("active-card");
+    postedCard.classList.remove("active-card");
+    deletedCard.classList.remove("active-card");
+
+}
+function clearSidebars(){
+    document.getElementById("appSidebar").classList.remove("active-side");
+    document.getElementById("jobSidebar").classList.remove("active-side");
+}
+
+//search
+document.getElementById("searchBox").addEventListener("input",loadJobs);
+
+async function loadDeletedJob(){
+
+     let response=await fetch(API.jobs);
+    let jobs=await response.json();
+
+    let deleteJobs=jobs.filter(job=>job.RecruiterID === loggedInUser.id && job.IsDeleted ===true );
+
+    let tablebody="";
+
+    deleteJobs.forEach(job=>{
+        tablebody+=`
+        <tr>
+            <td>${job.JobTitle}</td>
+            <td>${job.Skills.join(",")}</td>
+            <td>${job.Salary}</td>
+            <td>${job.JobType}</td>
+            <td>${job.PostedDate}</td>
+            <td>${job.Status}</td>
+            <td class="text-center">
+                <button class="btn btn-danger" onclick="restoreJob('${job.id}')">Restore</button>
+            </td>
+
+
+        </tr>
+        `;
+    });
+    document.getElementById("deletedTBody").innerHTML=tablebody;
+
+}
+async function restoreJob(id) {
+
+    const result=await Swal.fire({
+        icon:"question",
+        title:"Restore",
+        text:"Are you sure to restore this task?",
+        showCancelButton:true,
+        confirmButtonColor:"#3085d6",
+        cancelButtonColor:"#d33",
+        confirmButtonText:"Yes,Restore it"
+    });
+    if(result.isConfirmed){
+        try{
+            await fetch(`${API.jobs}/${id}`,{
+                method:"PATCH",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({IsDeleted:false})
+            });
+            await Swal.fire({
+                icon:"success",
+                title:"Restored",
+                text:"Job restored successfully"
+            })
+
+        }   
+        catch(error){
+            await Swal.fire({
+                icon:"error",
+                title:"Error",
+                text:"Error occured"
+            });
+        } 
+    }
+    loadDeletedJob();
+}

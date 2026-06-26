@@ -1,3 +1,26 @@
+//theme
+const themeBtn=document.getElementById("themeBtn");
+
+//load saved theme
+if(localStorage.getItem("theme") === "dark"){
+    document.body.classList.add("dark-theme");
+    themeBtn.innerHTML='<i class="bi bi-sun-fill"></i>';
+}
+
+//toggle theme
+themeBtn.addEventListener("click",function(){
+    document.body.classList.toggle("dark-theme");
+
+    if(document.body.classList.contains("dark-theme")){
+        localStorage.setItem("theme","dark");
+        themeBtn.innerHTML='<i class="bi bi-sun-fill"></i>';
+    }
+    else{
+        localStorage.setItem("theme",light);
+        themeBtn.innerHTML='<i class="bi bi-moon-stars-fill"></i>';
+    }
+});
+
 //fullname validation
 $("#fullname").on("input",function(){
     let namePattern=/^[A-Za-z ]+$/;

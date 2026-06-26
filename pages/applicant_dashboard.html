@@ -27,43 +27,47 @@
             <button class="btn me-2 fs-5" id="accBtn" data-bs-toggle="offcanvas" data-bs-target="#myAcc"><i class="bi bi-person-fill"></i></button>
 
         </div>
+    
+        <div class="container mt-5" id="searchContainer">
+            <input type="text" id="searchBox" class="form-control" placeholder="🔍 Enter Role , Company Name or Location">
+        </div>
 
-        <div class="container-fluid ms-5 mt-5" id="mainCards">
+        <div class="container-fluid  mt-5" id="mainCards">
             <div class="row g-3">
-                <div class="col-md-3">
+                <div class="col-md-3 col-12">
                     <div class="card shadow w-75"  id="appCard">
                         <div class="card-body text-center">
-                            <a class="text-center text-decoration-none fs-3 fw-bold">
+                            <a class="text-center text-decoration-none fs-5 fw-bold">
                                 Applied<span class="badge bg-danger ms-2" id="appCount">0</span>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-3 col-12">
                     <div class="card shadow w-75"  id="selectedCard">
                         <div class="card-body text-center">
-                            <a class="text-center text-decoration-none fs-3 fw-bold">
+                            <a class="text-center text-decoration-none fs-5 fw-bold">
                                 Selected<span class="badge bg-danger ms-2" id="selectCount">0</span>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <div class="card shadow w-75"  id="shortCard">
+                <div class="col-md-3 col-12">
+                    <div class="card shadow"  id="shortCard">
                         <div class="card-body text-center">
-                            <a class="text-center text-decoration-none fs-3 fw-bold">
+                            <a class="text-center text-decoration-none fs-5 fw-bold">
                                 Shortlisted<span class="badge bg-danger ms-2" id="shortCount">0</span>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-3 col-12">
                     <div class="card shadow w-75"  id="rejectCard">
                         <div class="card-body text-center">
-                            <a class="text-center text-decoration-none fs-3 fw-bold">
+                            <a class="text-center text-decoration-none fs-5 fw-bold">
                                 Rejected<span class="badge bg-danger ms-2" id="rejectCount">0</span>
                             </a>
                         </div>
@@ -74,32 +78,18 @@
         
 
         <!-- job container -->
-        <div class="container-fluid mt-5 d-none" id="jobContainer">
-            <div class="table-responsive" id="jobTable">
-                <table class="table table-bordered table-hover table-striped">
-
-                    <thead>
-                        <tr class="text-center">
-                            <th>Job Title</th>
-                            <th>Company Name</th>
-                            <th>Location</th>
-                            <th>Salary</th>
-                            <th>Posted Date</th>
-                            <th>Status</th>
-                            <th>Action</th>
-
-                        </tr>  
-                    </thead>
-                    <tbody id="jobTBody">
-
-                    </tbody>
-
-                </table>
-            </div>            
+        <div class="container-fluid mt-4" id="jobContainer">
+            <div class="row" id="jobCards"></div>
         </div>
-        
+
+        <div class="container-fluid mt-4 d-none" id="appContainer">
+            <div class="row" id="appliedJobsContainer"></div>
+        </div>
 
         
+        <div class="pagination" id="pagination">
+
+        </div>
     </div>
      
     <!-- account offcanvas -->

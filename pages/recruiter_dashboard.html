@@ -32,6 +32,9 @@
 
         </div>
         
+        <div class="container mt-5 d-none" id="searchContainer">
+            <input type="text" id="searchBox" class="form-control" placeholder="🔍 Enter Job title,Applicant Name,Jobtype">
+        </div>
         <!-- account offcanvas -->
 
         <div class="offcanvas offcanvas-end" id="myAcc">
@@ -69,6 +72,16 @@
                         <div class="card-body text-center">
                             <a class="text-center text-decoration-none fs-3 fw-bold">
                                 Posted Jobs<span class="badge bg-danger ms-2" id="postCount">0</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card shadow w-75"  id="deletedCard">
+                        <div class="card-body text-center">
+                            <a class="text-center text-decoration-none fs-3 fw-bold">
+                                Deleted Jobs<span class="badge bg-danger ms-2" id="postCount">0</span>
                             </a>
                         </div>
                     </div>
@@ -119,6 +132,32 @@
                         </tr>  
                     </thead>
                     <tbody id="appTBody">
+
+                    </tbody>
+
+                </table>
+            </div>            
+        </div>
+
+        <!--deleted job container -->
+        <div class="container-fluid mt-5 d-none" id="deletedContainer">
+            <div class="table-responsive" id="deletedTable">
+                <table class="table table-bordered table-hover table-striped">
+
+                    <thead>
+                        <tr class="text-center">
+                            <th>Job Title</th>
+                            <!-- <th>Description</th> -->
+                            <th>Skills</th>
+                            <th>Salary</th>
+                            <th>Job Type</th>
+                            <th>Posted Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+
+                        </tr>  
+                    </thead>
+                    <tbody id="deletedTBody">
 
                     </tbody>
 

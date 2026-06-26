@@ -55,3 +55,53 @@ img{
 #heroPara{
     color: #1E3A8A;
 }
+
+/* dark theme */
+.dark-theme{
+    background: #737987 !important;
+}
+.dark-theme #navContainer{
+    background:#24324A;
+}
+.dark-theme .card,.dark-theme .modal-content
+{
+    background: #24324A;
+    border:1px solid #3B82F6;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    color:white
+}
+.dark-theme #heroContainer p,h1{
+    font-weight:bold;
+}
+.dark-theme .modal-header{
+    background: #1D4ED8;;
+}
+.dark-theme .modal-body{
+    color:white;
+}
+
+.dark-theme .form-control,
+.dark-theme .form-select{
+    background: #334155;
+    color:white;
+    border:1px solid #647488;
+}
+.dark-theme .form-control::placeholder{
+    color:#CBD5E1;
+}
+
+.dark-theme .input-group-text{
+    background: #2563EB;
+}
+.dark-theme footer{
+    background: #24324A;
+}
+@media(max-width:768px){
+    #cardContainer .row{
+        gap:25px;
+    }
+    #loginBtn,#signBtn,#themeBtn{
+        margin:10px;
+    }
+}
+

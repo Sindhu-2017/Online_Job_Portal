@@ -28,6 +28,9 @@ body{
 #sidebar a:hover{
     background: #0F172A;
 }
+.active-side{
+    background: #0F172A;
+}
 #logout{
     margin:auto 15px 30px 15px;
 }
@@ -42,7 +45,7 @@ body{
     background:linear-gradient(-45deg,#60A5FA,#93C5FD,#BFDBFE,#EFF6FF);
     background-size: 400% 400%;
     animation: gradientMove 12s ease infinite;
-    overflow: hidden;
+    overflow-y: auto;
 }
 @keyframes gradientMove {
     0%{background-position: 0% 50%;}
@@ -56,7 +59,14 @@ body{
     padding:15px;
 
 }
-#themeBtn,#accBtn {
+#searchContainer{
+    width:95%;
+}
+#searchBox{
+    border:3px solid #1E3A8A;
+    box-shadow:0px 10px 20px rgba(0,0,0,0.3);
+}
+#themeBtn,#accBtn,#applyBtn {
     background: linear-gradient( 135deg, #1E3A8A, #2563EB);
     color:white;
     font-weight: bold;
@@ -66,9 +76,15 @@ body{
     color:blue;
     border:1px solid blue;
 }
+#mainCards{
+    padding:0 25px;
+}
 #mainCards .card{
     background:linear-gradient( 135deg, #1E3A8A, #2563EB); 
     transition: all 0.3s ease;
+}
+#shortCard{
+    width:80%;
 }
 #selectedCard a,#appCard a,#shortCard a,#rejectCard a
 {
@@ -85,6 +101,15 @@ body{
 }
 
 
+.active-card{
+    background: white !important;
+    border:2px solid #2563EB !important;
+    box-shadow:0 8px 20px rgba(37,99,235,.25);
+}
+
+.active-card a{
+    color:#2563EB !important;
+}
 
 .offcanvas{
  background:linear-gradient(-45deg,#60A5FA,#93C5FD,#BFDBFE,#EFF6FF);
@@ -118,4 +143,101 @@ body{
     background: linear-gradient( 135deg, #1E3A8A, #2563EB);
     color:white !important;
     font-weight: bold;
+}
+
+.card-header{
+   background: linear-gradient( 135deg, #1E3A8A, #2563EB);
+   color:white !important;
+   font-weight: bold; 
+}
+
+/* dark theme */
+.dark-theme{
+    background: #0F172A !important;
+    color:white;
+}
+.dark-theme #main-container{
+    background: #737987 !important;
+}
+.dark-theme .card,
+.dark-theme .offcanvas
+{
+    background: #24324A;
+    border:1px solid #3B82F6;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    color:white
+}
+.dark-theme #sidebar{
+    background:#24324A;
+
+}
+
+@media (max-width:992px){
+    #sidebar{
+        width:200px;
+    }
+    #main-container{
+        margin-left: 200px;
+    }
+    #mainCards .card{
+        width:100% !important;
+    }
+}
+@media(max-width:768px){
+    #sidebar{
+        width:100%;
+        height:auto;
+        position:relative;
+    }
+    #main-container{
+        margin-left:0;
+    }
+    .top-bar{
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+   
+    #mainCards .row{
+        justify-content: center;
+    }
+    #mainCards .card{
+        width:100% !important;
+        margin-bottom: 15px;
+    }
+    .table-responsive{
+        font-size: 14px;
+    }
+    .btn{
+        font-size: 14px;
+    }
+    #searchContainer{
+        width:100%;
+    }
+    #searchBox{
+        width:100%;
+    }
+}
+@media(max-width:576px){
+    h2{
+        font-size:24px;
+    }
+    .top-bar{
+        gap:8px;
+    }
+    #sidebar a{
+        padding:12px;
+        font-size: 15px;
+    }
+    .table{
+        font-size:13px;
+    }
+    .badge{
+        font-size:11px;
+    }
+    .modal-dialog{
+        margin:10px;
+    }
+    .offcanvas{
+        width:100% !important;
+    }
 }

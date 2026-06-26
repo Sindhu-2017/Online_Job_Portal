@@ -29,6 +29,10 @@ body{
     background: #0F172A;
 }
 
+.active-side{
+    background: #0F172A;
+}
+
 #logout{
     margin:auto 15px 30px 15px;
 }
@@ -56,6 +60,15 @@ body{
     padding:15px;
 
 }
+#searchContainer{
+    width:95%;
+    
+}
+#searchBox{
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.3);
+    border:3px solid #1E3A8A;
+
+}
 #themeBtn,#postBtn,#postJobBtn ,#accBtn ,#updateBtn{
     background: linear-gradient( 135deg, #1E3A8A, #2563EB);
     color:white;
@@ -66,19 +79,20 @@ body{
     color:blue;
     border:1px solid blue;
 }
+
 #mainCards .card{
     background:linear-gradient( 135deg, #1E3A8A, #2563EB); 
     transition: all 0.3s ease;
 }
-#postedCard a,#appCard a{
+#postedCard a,#appCard a,#deletedCard a{
     color:white;
 }
-#postedCard:hover ,#appCard:hover{
+#postedCard:hover ,#appCard:hover ,#deletedCard:hover{
     transform: translateY(-10px);
     background: white;
     border:1px solid blue;
 }
-#postedCard:hover a ,#appCard:hover a{
+#postedCard:hover a ,#appCard:hover a,#deletedCard:hover a{
     color: blue;
 }
 .active-card{
@@ -130,7 +144,7 @@ body{
 }
 
 .dark-theme #main-container{
-    background:#0F172A !important;
+    background: #737987 !important;
 }
 
 .dark-theme .card,
@@ -139,7 +153,7 @@ body{
 .dark-theme .table{
     background:#24324A;
     border:1px solid #3B82F6;
-    box-shadow:0 10px 25px rgba(0,0,0,.3);
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
 .dark-theme .table{
@@ -177,7 +191,11 @@ body{
 }
 
 .dark-theme #sidebar{
-    background:linear-gradient(180deg,#020617,#0F172A,#1E293B);
+    background:#24324A;
+}
+
+.darktheme .active-side{
+    background: #737987;
 }
 .dark-theme .offcanvas ,.dark-theme .modal-body{
     color:white;

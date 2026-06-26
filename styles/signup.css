@@ -84,3 +84,34 @@ body{
     transform: translateY(-2px);
     box-shadow: 0 15px 25px rgba(0,0,0,0.15);
 }
+
+/* dark theme */
+.dark-theme{
+    background: #737987 !important;
+}
+.dark-theme #navContainer{
+    background:#24324A;
+}
+.dark-theme .card
+{
+    background:#24324A;
+    border:1px solid #3B82F6;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+.dark-theme .form-control,
+.dark-theme .form-select{
+    background:#334155;
+    color:white;
+    border:1px solid #64748B;
+}
+
+.dark-theme .form-control::placeholder{
+    color:#CBD5E1;
+}
+
+.dark-theme .input-group-text{
+    background:#2563EB;
+}
+.dark-theme form,.dark-theme .form-label{
+    color:white;
+}

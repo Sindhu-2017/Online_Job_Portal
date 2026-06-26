@@ -1,5 +1,27 @@
+const themeBtn=document.getElementById("themeBtn");
+
+//load Saved theme
+if(localStorage.getItem("theme") === "dark"){
+    document.body.classList.add("dark-theme");
+    themeBtn.innerHTML='<i class="bi bi-sun-fill"></i>';
+}
+
+//toggle theme
+themeBtn.addEventListener("click",function(){
+    document.body.classList.toggle("dark-theme");
+
+    if(document.body.classList.contains("dark-theme")){
+        localStorage.setItem("theme","dark");
+        themeBtn.innerHTML='<i class="bi bi-sun-fill"></i>';
+    }
+    else{
+        localStorage.setItem("theme","light");
+        themeBtn.innerHTML='<i class="bi bi-moon-stars-fill"></i>';
+    }
+});
 
 const loggedInUser=JSON.parse(localStorage.getItem("loggedInUser"));
+
 // console.log(loggedInUser.Fullname);
 //offcanvas data 
 document.getElementById("fullname").innerText=loggedInUser.Fullname;
@@ -65,37 +87,78 @@ document.getElementById("logoutModal").addEventListener("click",async function(e
 async function loadJobs(){
     let response=await fetch(API.jobs);
     let jobs=await response.json();
-    
 
+    let res=await fetch(API.applications);
+    let app=await res.json();
+
+    let filteredJobs=jobs.filter(job=>job.Skills.some(skill=>loggedInUser.Skills.includes(skill)) );
+
+
+    const search=document.getElementById("searchBox").value.toLowerCase() ;
+
+    filteredJobs=filteredJobs.filter(job=> job.JobTitle.toLowerCase().includes(search) ||
+                 job.CompanyName.toLowerCase().includes(search) || job.CompanyLocation.toLowerCase().includes(search));
+   
     // document.getElementById("postCount").innerText=jobs.length;
-    let tablebody="";
+    filteredJobs.sort((a,b)=>new Date(b.PostedDate) - new Date(a.PostedDate) );
+    let cards = "";
 
-    jobs.forEach(job=>{
-        tablebody+=`
-        <tr>
-            <td>${job.JobTitle}</td>
-            <td>${job.CompanyName}</td>
-            <td>${job.CompanyLocation}</td>
-            <td>${job.Salary}</td>          
-            <td>${job.PostedDate}</td>
-            <td>${job.Status}</td>
-            <td class="text-center">
-                <button class="btn btn-danger" onclick="applyJob('${job.id}')">Apply</button>
-            </td>
+    filteredJobs.forEach(job => {
 
+        let appl=app.find(app=>app.JobID === job.id)
 
-        </tr>
+        cards += `
+        <div class="col-md-6 col-12 my-4 d-flex justify-content-center">
+
+            <div class="card shadow h-100 w-75">
+                <div class="card-header">
+                    <h4 class="card-title">${job.JobTitle}</h4>
+                </div>
+                <div class="card-body">
+
+                    <p><strong>Company:</strong> ${job.CompanyName}</p>
+                    <p><strong>Location:</strong> ${job.CompanyLocation}</p>
+                    <p><strong>Salary:</strong> ₹${job.Salary}</p>
+                    <p><strong>Skills:</strong> ${job.Skills.join(", ")}</p>
+                    <p><strong>Posted:</strong> ${job.PostedDate}</p>
+
+                    <button class="btn btn-primary w-100" id="applyBtn"
+                        onclick="applyJob('${job.id}')" ${appl && (appl.ApplicationStatus === "Applied" || appl.ApplicationStatus ===  "Selected" || 
+                             appl.ApplicationStatus === "Rejected" ||  appl.ApplicationStatus === "ShortListed")?"disabled":""} >
+                        ${appl ? appl.ApplicationStatus:"Apply"}
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
         `;
-    })
-    document.getElementById("jobTBody").innerHTML=tablebody;
+    });
+
+    document.getElementById("jobCards").innerHTML = cards;
 }
 
-
+//sidebar options
 document.getElementById("jobSidebar").addEventListener("click",function(){
     document.getElementById("jobContainer").classList.remove("d-none");
-    document.getElementById("jobContainer").classList.add("d-block");
-
+    document.getElementById("jobSidebar").classList.add("active-side");
     document.getElementById("appContainer").classList.add("d-none");
+    document.getElementById("appSidebar").classList.remove("active-side");
+
+    clearCards();
+    loadJobs();
+
+});
+document.getElementById("appSidebar").addEventListener("click",function(){
+    document.getElementById("appContainer").classList.remove("d-none");
+    document.getElementById("appSidebar").classList.add("active-side");
+
+    document.getElementById("jobContainer").classList.add("d-none");
+    document.getElementById("jobSidebar").classList.remove("active-side");
+
+    clearCards();
+    loadAppliedJobs();
 
 });
 
@@ -146,6 +209,7 @@ async function applyJob(id){
 
 
 
+
 //setting status to inavtive
 document.getElementById("deactivate").addEventListener("click",async function(e){
 
@@ -192,4 +256,172 @@ document.getElementById("deactivate").addEventListener("click",async function(e)
     }
 });
 
-loadJobs();
+//loadAppliedJobs - it runs when appSidebar clicked
+async function loadAppliedJobs(filter) {
+    const jobsRes=await fetch(API.jobs);
+    let jobs=await jobsRes.json();
+
+    const appRes=await fetch(API.applications);
+    const applications=await appRes.json();
+
+    let myApplications=applications.filter(app=>app.ApplicantID === loggedInUser.id);
+
+    if(!filter){
+        myApplications=myApplications;
+    }
+    if(filter === "selected"){
+        myApplications=myApplications.filter(app=>app.ApplicationStatus === "Selected");   
+    }
+    if(filter === "rejected"){
+        myApplications=myApplications.filter(app=>app.ApplicationStatus === "Rejected");   
+    }
+    if(filter === "shortlisted"){
+        myApplications=myApplications.filter(app=>app.ApplicationStatus === "ShortListed");   
+    }
+   
+    myApplications.sort((a,b)=>new Date(b.AppliedDate) - new Date(a.AppliedDate) );
+
+    let cards="";
+
+    myApplications.forEach(app=>{
+        let job=jobs.find(job=>job.id === app.JobID);
+
+        if(!job){
+            return;
+        }
+        
+        cards+=`
+        <div class="col-md-6 col-12 my-4 d-flex justify-content-center">
+            <div class="card shadow h-100 w-75">
+                <div class="card-header">
+                    <h3 class="card-title">${job.JobTitle}</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Company:</strong>${job.CompanyName}</p>
+                    <p><strong>Location:</strong>${job.CompanyLocation}</p>
+                    <p><strong>Salary:</strong>${job.Salary}</p>
+                    <p><strong>Job Type:</strong>${job.JobType}</p>
+                    <p><strong>Skills:</strong>${job.Skills.join(",")}</p>
+                    <p><strong>Applied Date:</strong>${app.AppliedDate}</p>
+
+                </div>
+                <div class="card-footer text-center">
+                    <span class="badge bg-warning">
+                        ${app.ApplicationStatus}
+                    </span>
+                </div>
+            </div>
+        </div>
+        `;
+    });
+    document.getElementById("appliedJobsContainer").innerHTML=cards;
+
+}
+
+
+//Cards filters
+
+document.getElementById("appCard").addEventListener("click",function(){
+    loadAppliedJobs();
+    document.getElementById("appContainer").classList.remove("d-none");
+    document.getElementById("jobContainer").classList.add("d-none");
+
+});
+
+document.getElementById("selectedCard").addEventListener("click",function(){
+    loadAppliedJobs("selected");
+    document.getElementById("appContainer").classList.remove("d-none");
+    document.getElementById("jobContainer").classList.add("d-none");
+});
+
+document.getElementById("shortCard").addEventListener("click",function(){
+    loadAppliedJobs("shortlisted");
+    document.getElementById("appContainer").classList.remove("d-none");
+    document.getElementById("jobContainer").classList.add("d-none");
+});
+
+document.getElementById("rejectCard").addEventListener("click",function(){
+    loadAppliedJobs("rejected");
+    document.getElementById("appContainer").classList.remove("d-none");
+    document.getElementById("jobContainer").classList.add("d-none");
+});
+
+async function loadCount() {
+    const appRes=await fetch(API.applications);
+    const applications=await appRes.json();
+
+    let myApplications=applications.filter(app=>app.ApplicantID === loggedInUser.id);
+
+    let appCount=myApplications.length;
+    let selectCount=myApplications.filter(app=>app.ApplicationStatus === "Selected").length;
+    let shortCount=myApplications.filter(app=>app.ApplicationStatus === "ShortListed").length;
+    let rejectCount=myApplications.filter(app=>app.ApplicationStatus === "Rejected").length;
+
+    document.getElementById("appCount").textContent=appCount;
+    document.getElementById("selectCount").innerText=selectCount;
+    document.getElementById("shortCount").textContent=shortCount;
+    document.getElementById("rejectCount").innerText=rejectCount;
+
+}
+
+//initial load
+loadCount();
+
+
+//activate card
+const appCard=document.getElementById("appCard");
+const selectedCard=document.getElementById("selectedCard");
+const shortCard=document.getElementById("shortCard");
+const rejectCard=document.getElementById("rejectCard");
+
+appCard.addEventListener("click",function(){
+    appCard.classList.add("active-card");
+    selectedCard.classList.remove("active-card");
+    shortCard.classList.remove("active-card");
+    rejectCard.classList.remove("active-card");
+
+    clearSidebars();
+});
+
+selectedCard.addEventListener("click",function(){
+    selectedCard.classList.add("active-card");
+    appCard.classList.remove("active-card");
+    shortCard.classList.remove("active-card");
+    rejectCard.classList.remove("active-card");
+
+    clearSidebars();
+});
+
+shortCard.addEventListener("click",function(){
+    shortCard.classList.add("active-card");
+    selectedCard.classList.remove("active-card");
+    appCard.classList.remove("active-card");
+    rejectCard.classList.remove("active-card");
+
+    clearSidebars();
+});
+
+rejectCard.addEventListener("click",function(){
+    rejectCard.classList.add("active-card");
+    selectedCard.classList.remove("active-card");
+    shortCard.classList.remove("active-card");
+    appCard.classList.remove("active-card");
+
+    clearSidebars();
+});
+
+function clearSidebars(){
+    document.getElementById("appSidebar").classList.remove("active-side");
+    document.getElementById("jobSidebar").classList.remove("active-side");
+}
+function clearCards(){
+    selectedCard.classList.remove("active-card");
+    shortCard.classList.remove("active-card");
+    rejectCard.classList.remove("active-card");
+    appCard.classList.remove("active-card");
+}
+
+
+//search
+document.getElementById("searchBox").addEventListener("input",loadJobs);
+
