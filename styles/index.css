@@ -3,7 +3,7 @@
     font-family: "Poppins",sans-serif;
 }
 body{
-    background:linear-gradient(-45deg,#60A5FA,#93C5FD,#BFDBFE,#EFF6FF);
+    background-color: #F8FAFC;
     background-size: 400% 400%;
     animation: gradientMove 12s ease infinite;
 }
@@ -13,7 +13,7 @@ body{
     100%{background-position: 0% 50%;}
 }
 #navContainer{
-    background: linear-gradient(135deg, #0F172A,#1E3A8A, #2563EB);
+    background: linear-gradient(135deg, #475569, #64748B);
     top:0;
     left:0;
     position:sticky;
@@ -21,19 +21,27 @@ body{
 }
 
 footer{
-    background: linear-gradient(135deg, #0F172A,#1E3A8A, #2563EB);
+    background: linear-gradient(135deg, #475569, #64748B);
     margin-top:100px;
 }
 .card{
-    min-height:150px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+.card-body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 .card-header{
-    background: linear-gradient(135deg,#1E3A8A,#2563EB);
+    background: linear-gradient(135deg, #475569, #64748B);
 }
 #loginBtn,#signBtn,#getBtn,#themeBtn,#login,#emailGroup,#passGroup{
-    background: linear-gradient( 135deg, #1E3A8A, #2563EB);
+    background: linear-gradient(135deg,#4B5563,#6B7280);
     color:white;
-    font-weight: bold;
+    font-weight:600;
+    border:none;
 }
 img{
     animation:float 3s ease-in-out infinite;
@@ -45,8 +53,8 @@ img{
 }
 #loginBtn:hover,#getBtn:hover,#signBtn:hover,#themeBtn:hover,#login:hover{
     background: white;
-    color:blue;
-    border:1px solid blue;
+    color:#505967;
+    border:1px solid #505967;
 }
 #heroContainer{
     margin-top: 100px;
@@ -55,9 +63,18 @@ img{
     letter-spacing: 1px;
 }
 #heroPara{
-    color: #1E3A8A;
+    color: #24324A;
 }
-
+#cardContainer .card{
+    border-radius: 30px;
+}
+#cardContainer .card-header{
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+#loginModal .input-group{
+    border-radius: 50px;
+}
 /* dark theme */
 .dark-theme{
     background: #737987 !important;

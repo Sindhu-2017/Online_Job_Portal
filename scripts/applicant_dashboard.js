@@ -68,21 +68,24 @@ document.getElementById("logout").addEventListener("click",async function(e){
     const result=await Swal.fire({
         icon:"question",
         title:"Logout",
-        text:"Are you sure to logout?"
+        text:"Are you sure to logout?",
+        showCancelButton:true,
+        confirmButtonColor:"#3085d6",
+        cancelButtonColor:"#d33",
+        confirmButtonText:"Yes" 
     });
     if(result.isConfirmed){
         localStorage.removeItem("loggedInUser");
         await Swal.fire({
             toast:true,
             icon:"success",
-            text:"logout sucessfully ,redirecting...",
-            showCancelButton:false,
+            position:"top-end",
+            text:"Logout sucessfully ,Redirecting...",
+            showConfirmButton:false,
             timer:2000,
             timerProgressBar:true
         });
-        setTimeout(()=>{
-            window.location.href="../index.html";
-        },2000);
+        window.location.href="../index.html";
     }
 });
 
@@ -164,7 +167,7 @@ async function loadJobs(){
 
             <div class="card shadow h-100 w-75">
                 <div class="card-header">
-                    <h4 class="card-title">${job.JobTitle}</h4>
+                    <h4 class="card-title text-center">${job.JobTitle}</h4>
                 </div>
                 <div class="card-body">
 
@@ -176,7 +179,7 @@ async function loadJobs(){
 
                     <button class="btn btn-primary w-100" id="applyBtn"
                         onclick="applyJob('${job.id}')" ${appl && (appl.ApplicationStatus === "Applied" || appl.ApplicationStatus ===  "Selected" || 
-                             appl.ApplicationStatus === "Rejected" ||  appl.ApplicationStatus === "ShortListed")?"disabled":""} >
+                             appl.ApplicationStatus === "Rejected" ||  appl.ApplicationStatus === "ShortListed"|| appl.ApplicationStatus === "Called For Interview")?"disabled":""} >
                         ${appl ? appl.ApplicationStatus:"Apply"}
                     </button>
 
@@ -201,7 +204,7 @@ document.getElementById("jobSidebar").addEventListener("click",function(){
     document.getElementById("jobSidebar").classList.add("active-side");
     document.getElementById("appContainer").classList.add("d-none");
     document.getElementById("appSidebar").classList.remove("active-side");
-
+    document.getElementById("searchContainer").classList.remove("d-none");
     clearCards();
     loadJobs();
 
@@ -212,6 +215,7 @@ document.getElementById("appSidebar").addEventListener("click",function(){
 
     document.getElementById("jobContainer").classList.add("d-none");
     document.getElementById("jobSidebar").classList.remove("active-side");
+    document.getElementById("searchContainer").classList.add("d-none");
 
     clearCards();
     loadAppliedJobs();
@@ -228,7 +232,7 @@ async function applyJob(id){
     let applications={
         JobID:id,
         ApplicantID:loggedInUser.id,
-        AppliedDate:AppliedDate,
+        AppliedDate:formattedDate,
         ApplicationStatus:"Applied"
     }
 
@@ -359,7 +363,7 @@ async function loadAppliedJobs(filter) {
         <div class="col-md-6 col-12 my-4 d-flex justify-content-center">
             <div class="card shadow h-100 w-75">
                 <div class="card-header">
-                    <h3 class="card-title">${job.JobTitle}</h3>
+                    <h4 class="card-title text-center">${job.JobTitle}</h4>
                 </div>
                 <div class="card-body">
                     <p><strong>Company:</strong>${job.CompanyName}</p>
@@ -444,6 +448,8 @@ appCard.addEventListener("click",function(){
     shortCard.classList.remove("active-card");
     rejectCard.classList.remove("active-card");
 
+    document.getElementById("searchContainer").classList.add("d-none");
+
     clearSidebars();
 });
 
@@ -452,6 +458,8 @@ selectedCard.addEventListener("click",function(){
     appCard.classList.remove("active-card");
     shortCard.classList.remove("active-card");
     rejectCard.classList.remove("active-card");
+    document.getElementById("searchContainer").classList.add("d-none");
+
 
     clearSidebars();
 });
@@ -461,6 +469,8 @@ shortCard.addEventListener("click",function(){
     selectedCard.classList.remove("active-card");
     appCard.classList.remove("active-card");
     rejectCard.classList.remove("active-card");
+    document.getElementById("searchContainer").classList.add("d-none");
+
 
     clearSidebars();
 });
@@ -470,6 +480,7 @@ rejectCard.addEventListener("click",function(){
     selectedCard.classList.remove("active-card");
     shortCard.classList.remove("active-card");
     appCard.classList.remove("active-card");
+    document.getElementById("searchContainer").classList.add("d-none");
 
     clearSidebars();
 });

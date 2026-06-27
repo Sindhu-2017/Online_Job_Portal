@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+*{
+    font-family: "Poppins",sans-serif;
+}
 body{
-    background:linear-gradient(-45deg,#60A5FA,#93C5FD,#BFDBFE,#DBEAFE,#EFF6FF);
+    background-color: #F8FAFC;
     background-size: 400% 400%;
     animation: gradientMove 12s ease infinite;
-    font-family: "Poppins",sans-serif;
 }
 @keyframes gradientMove {
     0%{background-position: 0% 50%;}
@@ -11,7 +13,7 @@ body{
     100%{background-position: 0% 50%;}
 }
 #navContainer{
-    background: linear-gradient(135deg, #0F172A,#1E3A8A, #2563EB);
+    background: linear-gradient(135deg, #475569, #64748B);
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     top:0;
     left:0;
@@ -38,7 +40,8 @@ body{
     transform: translateY(-3px);
 }
 .card-header{
-    background: linear-gradient(135deg, #0F172A,#1E3A8A, #2563EB);
+    background: linear-gradient(135deg, #475569, #64748B);
+
     color:white !important;
     text-align: center;
     padding: 20px;
@@ -57,21 +60,22 @@ body{
     padding: 12px;
 }
 .form-control:focus,.form-select:focus{
-    border-color: #2563EB !important;
+    border-color: #505967 !important;
 }
 
 .form-check-input:checked{
-    background-color: #2563EB;
-    border:1px solid #2563EB;
+    background-color: #505967;
+    border:1px solid #505967;
 }
 .input-group-text{
-    background: linear-gradient( 135deg, #1E3A8A, #2563EB);
+    background: linear-gradient(135deg, #475569, #64748B);
+
     color:white !important;
     font-weight: bold;
 }
 
 #themeBtn,#login,#signBtn,#emailGroup,#passGroup{
-    background: linear-gradient( 135deg, #1E3A8A, #2563EB);
+    background: linear-gradient(135deg, #475569, #64748B);
     color:white;
     font-weight: bold;
     transition: 0.3s ease;
@@ -79,8 +83,8 @@ body{
 }
 #signBtn:hover,#themeBtn:hover{
     background: white;
-    color:blue;
-    border:1px solid blue;
+    color:#505967;
+    border:1px solid #505967;
     transform: translateY(-2px);
     box-shadow: 0 15px 25px rgba(0,0,0,0.15);
 }

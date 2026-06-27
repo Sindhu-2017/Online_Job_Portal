@@ -79,9 +79,9 @@ $("#login").on("click",async function(){
                 await Swal.fire({
                     toast:true,
                     icon:"success",
-                    title:"redirecting",
+                    title:"Redirecting",
                     position:"top-end",
-                    showCancelButton:false,
+                    showConfirmButton:false,
                     timer:2000,
                     timerProgressBar:true
                 });
@@ -89,15 +89,14 @@ $("#login").on("click",async function(){
                 $("#email").val("");
                 $("#password").val("");
 
-                setTimeout(()=>{
-                    if(validUser.Role === "Applicant" ){
-                        window.location.href="pages/applicant_dashboard.html";
-                    }
-                    else if(validUser.Role === "Recruiter"){
-                        window.location.href="pages/recruiter_dashboard.html";
-                    }
-                },2000);
-            }           
+                if(validUser.Role === "Applicant" ){
+                    window.location.href="pages/applicant_dashboard.html";
+                }
+                else if(validUser.Role === "Recruiter"){
+                     window.location.href="pages/recruiter_dashboard.html";
+                }
+            }
+                      
             
         }
         if(!validUser){

@@ -262,16 +262,17 @@ $("#signupForm").on("submit",async function(e){
         return;
     }
 
+    let formattedDate = $("#dob").val().split("-").reverse().join("-");
     let users={
         Fullname:$("#fullname").val().trim().split(" ").map(word=> word.charAt(0).toUpperCase()+word.slice(1).toLowerCase()).join(" "),
         Email:$("#email").val().trim(),
         Phone:$("#phone").val().trim(),
-        DateOfBirth:$("#dob").val(),
+        DateOfBirth:formattedDate,
         Gender:$("input[name='gender']:checked").val(),
         Role:$("#role").val(),
-        CompanyName:$("#compName").val().trim(),
-        CompanyLocation:$("#compLocation").val().trim(),
-        Qualification:$("#qualification").val().trim(),
+        CompanyName:$("#compName").val().trim().split(" ").map(word=> word.charAt(0).toUpperCase()+word.slice(1).toLowerCase()).join(" "),
+        CompanyLocation:$("#compLocation").val().trim().split(" ").map(word=> word.charAt(0).toUpperCase()+word.slice(1).toLowerCase()).join(" "),
+        Qualification:$("#qualification").val().trim().split(" ").map(word=> word.charAt(0).toUpperCase()+word.slice(1).toLowerCase()).join(" "),
         Experience:$("#experience").val().trim(),
         Skills:$("input[name='skills']:checked").map(function(){
             return $(this).val()
@@ -281,26 +282,38 @@ $("#signupForm").on("submit",async function(e){
     }
 
     try{
-        await $.ajax({
-            url:API.users,
-            method:"POST",
-            contentType:"application/json",
-            data:JSON.stringify(users)
+
+        const result= await Swal.fire({
+                title:"Signup",
+                text:"Are you sure you want to register?",
+                icon:"question",
+                showCancelButton:true,
+                cancelButtonColor:"#d33",
+                confirmButtonColor:"#3085d6",
+                confirmButtonText:"Yes,login"
         });
+        if(result.isConfirmed){
+            await $.ajax({
+                url:API.users,
+                method:"POST",
+                contentType:"application/json",
+                data:JSON.stringify(users)
+            });
 
-        await Swal.fire({
-            icon:"success",
-            title:"User Added",
-            text:"User Added Successfully!"
-        });
+            await Swal.fire({
+                toast:true,
+                position:"top-end",
+                icon:"success",
+                text:"Registration Successfully Completed!",
+                showConfirmButton:false,
+                timer:2000,
+                timerProgressBar:true
+            });
 
-        $("#signupForm")[0].reset();
-
-        setTimeout(()=>{
-            window.location.href="../index.html";
-        },2000);      
-
-
+            $("#signupForm")[0].reset();
+            window.location.href="../index.html";   
+        }
+        
     }
     catch(error){
         await Swal.fire({

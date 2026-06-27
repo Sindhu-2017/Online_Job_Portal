@@ -51,6 +51,93 @@
       "Password": "11!!aaAA",
       "Status": "active",
       "id": "jo5lff5tTGo"
+    },
+    {
+      "Fullname": "Varun",
+      "Email": "varun@gmail.com",
+      "Phone": "1111111111",
+      "DateOfBirth": "2008-06-21",
+      "Gender": "male",
+      "Role": "Applicant",
+      "CompanyName": "",
+      "CompanyLocation": "",
+      "Qualification": "BSc Computer Science",
+      "Experience": "3",
+      "Skills": [
+        "HTML",
+        "CSS"
+      ],
+      "Password": "11!!aaAA",
+      "Status": "active",
+      "id": "d5UZbdsnqWY"
+    },
+    {
+      "Fullname": "Devasree",
+      "Email": "deva@gmail.com",
+      "Phone": "9876543210",
+      "DateOfBirth": "2008-06-21",
+      "Gender": "female",
+      "Role": "Recruiter",
+      "CompanyName": "XYZ pvt ltd",
+      "CompanyLocation": "Chennai",
+      "Qualification": "",
+      "Experience": "",
+      "Skills": [],
+      "Password": "11!!aaAA",
+      "Status": "active",
+      "id": "Njf8zU8wU18"
+    },
+    {
+      "Fullname": "Indhuja",
+      "Email": "indhu@gmail.com",
+      "Phone": "1234567890",
+      "DateOfBirth": "2008-06-21",
+      "Gender": "female",
+      "Role": "Recruiter",
+      "CompanyName": "Scopeyard Solutions",
+      "CompanyLocation": "Coimbatore",
+      "Qualification": "",
+      "Experience": "",
+      "Skills": [],
+      "Password": "11!!aaAA",
+      "Status": "active",
+      "id": "DIrJ3Lrf6yQ"
+    },
+    {
+      "Fullname": "Guru",
+      "Email": "guru@gmail.com",
+      "Phone": "1234567890",
+      "DateOfBirth": "2008-06-14",
+      "Gender": "female",
+      "Role": "Applicant",
+      "CompanyName": "",
+      "CompanyLocation": "",
+      "Qualification": "Bca",
+      "Experience": "10",
+      "Skills": [
+        "HTML",
+        "JAVASCRIPT",
+        "REACT"
+      ],
+      "Password": "11!!aaAA",
+      "Status": "active",
+      "id": "QMA3kOzPB-I"
+    },
+    {
+      "Fullname": "Monisha",
+      "Email": "monisha@gmail.com",
+      "Phone": "9876543210",
+      "DateOfBirth": "20-06-2008",
+      "Gender": "female",
+      "Role": "Recruiter",
+      "CompanyName": "Cgvak Tech Ltd",
+      "CompanyLocation": "Coimbatore",
+      "Qualification": "",
+      "Experience": "",
+      "Skills": [],
+      "Password": "11!!aaAA",
+      "Status": "active",
+      "id": "WBIIYPWj0_E"
     }
   ],
   "jobs": [
@@ -67,8 +154,8 @@
       "Salary": "6000",
       "JobType": "PartTime",
       "RecruiterID": "AeEJZLlxPmA",
-      "PostedDate": "2026-06-25",
-      "Status": "active",
+      "PostedDate": "2026-06-27",
+      "Status": "Active",
       "id": "e4dl19tWjpI",
       "IsDeleted": false
     },
@@ -85,10 +172,100 @@
       "Salary": "20000",
       "JobType": "FullTime",
       "RecruiterID": "AeEJZLlxPmA",
-      "PostedDate": "2026-06-26",
-      "Status": "active",
+      "PostedDate": "2026-06-27",
+      "Status": "Active",
       "IsDeleted": false,
       "id": "bWo5RDhNoDU"
+    },
+    {
+      "CompanyName": "ABC pvt ltd",
+      "CompanyLocation": "Coimbatore",
+      "JobTitle": "Back End Developer",
+      "Description": "Backend Developer needed ",
+      "Skills": [
+        "MongoDB",
+        "SQL"
+      ],
+      "Salary": "34000",
+      "JobType": "FullTime",
+      "RecruiterID": "AeEJZLlxPmA",
+      "PostedDate": "2026-06-27",
+      "Status": "Active",
+      "IsDeleted": false,
+      "id": "r8Kk6EE-BYo"
+    },
+    {
+      "CompanyName": "G2 tech ltd",
+      "CompanyLocation": "Coimbatore",
+      "JobTitle": "Developer",
+      "Description": "Needed Developer with knowledge of front end backend",
+      "Skills": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "MongoDB",
+        "SQL"
+      ],
+      "Salary": "24000",
+      "JobType": "FullTime",
+      "RecruiterID": "jo5lff5tTGo",
+      "PostedDate": "2026-06-27",
+      "Status": "active",
+      "IsDeleted": false,
+      "id": "P8oKAAZ28Uc"
+    },
+    {
+      "CompanyName": "ABC pvt ltd",
+      "CompanyLocation": "Coimbatore",
+      "JobTitle": "Front Developer",
+      "Description": "Wanted developer with knowledge of html,css",
+      "Skills": [
+        "HTML",
+        "CSS"
+      ],
+      "Salary": "12000",
+      "JobType": "FullTime",
+      "RecruiterID": "AeEJZLlxPmA",
+      "PostedDate": "2026-06-27",
+      "Status": "Active",
+      "IsDeleted": false,
+      "id": "K1ovAW9G7dU"
+    },
+    {
+      "CompanyName": "Cgvak Tech Ltd",
+      "CompanyLocation": "Coimbatore",
+      "JobTitle": "Full Stack Developer",
+      "Description": "Full Stack Developer",
+      "Skills": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "Salary": "23000",
+      "JobType": "FullTime",
+      "RecruiterID": "WBIIYPWj0_E",
+      "PostedDate": "2026-06-27",
+      "Status": "Active",
+      "IsDeleted": false,
+      "id": "pGiZ2SAwYyk"
+    },
+    {
+      "CompanyName": "Cgvak Tech Ltd",
+      "CompanyLocation": "Coimbatore",
+      "JobTitle": "Full Stack Developer",
+      "Description": "formattedDate",
+      "Skills": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "Salary": "24000",
+      "JobType": "FullTime",
+      "RecruiterID": "WBIIYPWj0_E",
+      "PostedDate": "2026-06-27",
+      "Status": "Active",
+      "IsDeleted": false,
+      "id": "NHp9RZy3xpE"
     }
   ],
   "applications": [
@@ -96,8 +273,29 @@
       "JobID": "e4dl19tWjpI",
       "ApplicantID": "yXBwPO8vHt8",
       "AppliedDate": "2026-06-25",
-      "ApplicationStatus": "ShortListed",
+      "ApplicationStatus": "Called For Interview",
       "id": "28-zMfrqjtM"
+    },
+    {
+      "JobID": "bWo5RDhNoDU",
+      "ApplicantID": "yXBwPO8vHt8",
+      "AppliedDate": "2026-06-27",
+      "ApplicationStatus": "ShortListed",
+      "id": "I6_QW5_88rE"
+    },
+    {
+      "JobID": "P8oKAAZ28Uc",
+      "ApplicantID": "yXBwPO8vHt8",
+      "AppliedDate": "2026-06-27",
+      "ApplicationStatus": "Applied",
+      "id": "kOiZF2kT9DA"
+    },
+    {
+      "JobID": "K1ovAW9G7dU",
+      "ApplicantID": "yXBwPO8vHt8",
+      "AppliedDate": "2026-06-27",
+      "ApplicationStatus": "Applied",
+      "id": "10WDPbN9bak"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

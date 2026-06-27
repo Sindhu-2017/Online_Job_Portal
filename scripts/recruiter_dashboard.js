@@ -67,7 +67,11 @@ async function logoutUser(){
     const result=await Swal.fire({
         icon:"question",
         title:"Logout",
-        text:"Are you sure to logout?"
+        text:"Are you sure to logout?",
+        showCancelButton:true,
+        confirmButtonColor:"#3085d6",
+        cancelButtonColor:"#d33",
+        confirmButtonText:"Yes"        
     });
     if(result.isConfirmed){
         localStorage.removeItem("loggedInUser");
@@ -75,14 +79,13 @@ async function logoutUser(){
             toast:true,
             icon:"success",
             position:"top-end",
-            text:"logout sucessfully ,redirecting...",
-            showCancelButton:false,
+            text:"Logout sucessfully ,Redirecting...",
+            showConfirmButton:false,
             timer:2000,
             timerProgressBar:true
         });
-        setTimeout(()=>{
-            window.location.href="../index.html";
-        },2000);
+        window.location.href="../index.html";
+        
     }
 }
 
@@ -118,8 +121,7 @@ document.getElementById("postJobBtn").addEventListener("click",async function(){
 
     const recruiterId=loggedInUser.id;
     const today=new Date().toISOString().split("T")[0];
-
-    
+  
 
     if(!CompanyName || !CompanyLocation || !JobTitle || !Description || skills.length === 0 || !Salary || !JobType || !Status){
         await Swal.fire({
@@ -213,6 +215,10 @@ async function loadJobs(){
 
     document.getElementById("postCount").innerText=filteredJobs.length;
 
+    //load deleted count beacuse this function will be loaded initially
+    let deleteJobs=jobs.filter(job=>job.RecruiterID === loggedInUser.id && job.IsDeleted ===true );
+    document.getElementById("deletedCount").innerText=deleteJobs.length;
+
     const search=document.getElementById("searchBox").value.toLowerCase();
     filteredJobs=filteredJobs.filter(job=> job.JobTitle.toLowerCase().includes(search) ||
                    job.JobType.toLowerCase().includes(search));
@@ -248,11 +254,11 @@ async function loadJobs(){
             <td>${job.Skills.join(",")}</td>
             <td>${job.Salary}</td>
             <td>${job.JobType}</td>
-            <td>${job.PostedDate}</td>
+            <td>${job.PostedDate.split("-").reverse().join("-")}</td>
             <td>${job.Status}</td>
             <td class="text-center">
-                <button class="btn btn-danger" onclick="editJob('${job.id}')">Edit</button>
-                <button class="btn btn-danger" onclick="deleteJob('${job.id}')">Delete</button>
+                <button class="btn btn-warning" onclick="editJob('${job.id}')" title="Edit Task"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-danger" onclick="deleteJob('${job.id}')" title="Delete Task"><i class="bi bi-trash3"></i></button>
             </td>
 
 
@@ -374,11 +380,12 @@ async function loadApplication(status){
         <tr>
             <td>${job.JobTitle}</td>
             <td>${user.Fullname}</td>
-            <td>${appl.AppliedDate}</td>
+            <td>${job.Skills.join(", ")}</td>
+            <td>${appl.AppliedDate.split("-").reverse().join("-")}</td>
             <td>${appl.ApplicationStatus}</td>
             <td class="text-center">
-                <button class="btn btn-danger" onclick="viewApplicant('${appl.ApplicantID}')" 
-                data-bs-toggle="modal" data-bs-target="#viewApplicant">View</button>                
+                <button class="btn btn-danger" onclick="viewApplicant('${appl.ApplicantID}','${appl.JobID}')" 
+                data-bs-toggle="modal" data-bs-target="#viewApplicant" title="View Applicant Details"><i class="bi bi-eye"></i></button>                
             </td>
         </tr>
         `;
@@ -392,11 +399,11 @@ async function loadApplication(status){
 
 
 //view applicant
-async function viewApplicant(id){
+async function viewApplicant(applicantid,jobid){
     let res=await fetch(API.users);
     let users=await res.json(); 
 
-    let filteredUser=users.find(user=>user.id === id);
+    let filteredUser=users.find(user=>user.id === applicantid);
 
     document.getElementById("appfullname").innerText=filteredUser.Fullname;
     document.getElementById("appemail").innerText=filteredUser.Email;
@@ -415,7 +422,7 @@ async function viewApplicant(id){
         let res=await fetch(API.applications);
         let app=await res.json();
 
-        let application=app.find(app=>app.ApplicantID === id)
+        let application=app.find(app=>app.ApplicantID === applicantid && app.JobID === jobid)
 
         try{
             const result=await Swal.fire({
@@ -441,6 +448,8 @@ async function viewApplicant(id){
                     text:"Application Status Updated Successfully!"
                 });
             }
+            bootstrap.Modal.getOrCreateInstance(document.getElementById("viewApplicant")).hide();
+            loadApplication();
         }
         catch(error){
            await Swal.fire({
@@ -523,6 +532,7 @@ document.getElementById("appCard").addEventListener("click",function(){
     document.getElementById("appContainer").classList.add("d-block");
     document.getElementById("deletedContainer").classList.add("d-none");
 
+    searchContainer.classList.add("d-none");
 
     document.getElementById("jobContainer").classList.add("d-none");
 
@@ -531,12 +541,15 @@ document.getElementById("appCard").addEventListener("click",function(){
 
 document.getElementById("appSidebar").addEventListener("click",function(){
     document.getElementById("appContainer").classList.remove("d-none");
-    document.getElementById("appSidebar").classList.add("active-side");
-   
+    document.getElementById("appSidebar").classList.add("active-side");   
 
     document.getElementById("jobContainer").classList.add("d-none");
+
     document.getElementById("jobSidebar").classList.remove("active-side");
     document.getElementById("deletedContainer").classList.add("d-none");
+
+    searchContainer.classList.add("d-none");
+
 
     clearActiveCards();
 })
@@ -548,6 +561,7 @@ document.getElementById("postedCard").addEventListener("click",function(){
     document.getElementById("jobContainer").classList.add("d-block");
     document.getElementById("deletedContainer").classList.add("d-none");
 
+    searchContainer.classList.remove("d-none");
     
     document.getElementById("appContainer").classList.add("d-none");
     clearSidebars();
@@ -559,6 +573,8 @@ document.getElementById("deletedCard").addEventListener("click",function(){
     
     document.getElementById("appContainer").classList.add("d-none");
     document.getElementById("jobContainer").classList.add("d-none");
+    searchContainer.classList.add("d-none");
+
 
     clearSidebars();
     loadDeletedJob();
@@ -572,6 +588,8 @@ document.getElementById("jobSidebar").addEventListener("click",function(){
 
     document.getElementById("appContainer").classList.add("d-none");
     document.getElementById("appSidebar").classList.remove("active-side");
+
+    searchContainer.classList.remove("d-none");
 
     clearActiveCards();
 });
@@ -619,6 +637,8 @@ function clearSidebars(){
     document.getElementById("jobSidebar").classList.remove("active-side");
 }
 
+const searchContainer=document.getElementById("searchContainer");
+
 //search
 document.getElementById("searchBox").addEventListener("input",()=>{
     //pagination
@@ -644,7 +664,7 @@ async function loadDeletedJob(){
 
     let deleteJobs=jobs.filter(job=>job.RecruiterID === loggedInUser.id && job.IsDeleted ===true );
 
-   
+  
     const paginatedDeleted = paginate(deleteJobs);
 
     let tablebody="";
@@ -659,7 +679,7 @@ async function loadDeletedJob(){
             <td>${job.PostedDate}</td>
             <td>${job.Status}</td>
             <td class="text-center">
-                <button class="btn btn-danger" onclick="restoreJob('${job.id}')">Restore</button>
+                <button class="btn btn-danger" onclick="restoreJob('${job.id}')"><i class="bi bi-arrow-counterclockwise"></i></button>
             </td>
 
 
@@ -705,6 +725,7 @@ async function restoreJob(id) {
         } 
     }
     loadDeletedJob();
+    loadJobs();
 }
 
 
@@ -717,7 +738,7 @@ function showApplicationStatus(status){
     document.getElementById("jobContainer").classList.add("d-none");
     document.getElementById("deletedContainer").classList.add("d-none");
 
-  
+    searchContainer.classList.add("d-none");
 
     loadApplication(status);
 }

@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
 *{
-    font-family: "Poppins",sans-serif ;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 #sidebar{
@@ -10,7 +11,7 @@
     height: 100vh;
     position:fixed;
     overflow-y: auto;
-    background: linear-gradient(135deg, #0F172A,#1E3A8A, #2563EB);
+    background: linear-gradient(to right, #475569, #64748B);
     color:white;
     display: flex;
     flex-direction: column;
@@ -44,7 +45,7 @@
 #main-container{
     margin-left:250px;
     height:100vh;
-   background:linear-gradient(to right,#60A5FA,#93C5FD,#BFDBFE,#EFF6FF);
+    background-color: #F8FAFC;
     background-size: 400% 400%;
     animation: gradientMove 12s ease infinite;
 }
@@ -74,18 +75,18 @@
 
 }
 #themeBtn,#postBtn,#postJobBtn ,#accBtn ,#updateBtn{
-    background: linear-gradient( 135deg, #1E3A8A, #2563EB);
+    background: linear-gradient(to right, #475569, #64748B);
     color:white;
     font-weight: bold;
 }
 #themeBtn:hover,#postBtn:hover,#postJobBtn:hover ,#accBtn:hover ,#updateBtn:hover{
     background: white;
-    color:blue;
-    border:1px solid blue;
+    color:#505967;
+    border:1px solid #505967;
 }
 
 #mainCards .card{
-    background:linear-gradient( 135deg, #1E3A8A, #2563EB); 
+    background: linear-gradient(135deg, #475569, #64748B);
     transition: all 0.3s ease;
 }
 #postedCard a,#appCard a,#deletedCard a{
@@ -94,23 +95,23 @@
 #postedCard:hover ,#appCard:hover ,#deletedCard:hover{
     transform: translateY(-10px);
     background: white;
-    border:1px solid blue;
+    border:1px solid #505967;
 }
 #postedCard:hover a ,#appCard:hover a,#deletedCard:hover a{
-    color: blue;
+    color: #505967;
 }
 .active-card{
     background: white !important;
-    border:2px solid #2563EB !important;
+    border:2px solid #505967 !important;
     box-shadow:0 8px 20px rgba(37,99,235,.25);
 }
 
 .active-card a{
-    color:#2563EB !important;
+    color:#505967 !important;
 }
 
 .input-group-text{
-    background: linear-gradient( 135deg, #1E3A8A, #2563EB);
+    background: linear-gradient(to right, #475569, #64748B);
     color:white !important;
     font-weight: bold;
 }
@@ -118,13 +119,13 @@
     font-weight:500;
 }
 .modal-header{
-    background: linear-gradient( 135deg, #1E3A8A, #2563EB);
+    background: linear-gradient(to right, #475569, #64748B);
     color:white !important;
     font-weight: bold;
 }
 
 .offcanvas{
- background:linear-gradient(-45deg,#60A5FA,#93C5FD,#BFDBFE,#EFF6FF);
+    background: linear-gradient(to right, #a9b9ce, #64748B);
 }
 #logoutModal:hover{
     background-color: white !important;
@@ -132,13 +133,20 @@
     color:red
 }
 #jobTable thead th{
-    background: linear-gradient( 135deg, #1E3A8A, #2563EB);
+    background: linear-gradient(to right, #475569, #64748B);
     color:white;
 }
 
 #appTable thead th{
-    background: linear-gradient( 135deg, #1E3A8A, #2563EB);
+    background: linear-gradient(to right, #475569, #64748B);
     color:white;
+}
+#deletedTable thead th{
+    background: linear-gradient(to right, #475569, #64748B);
+    color:white;
+}
+#appContainer{
+    width:90%;
 }
 
 /* pagination */
@@ -157,7 +165,7 @@
 }
 
 .pagination .active .page-link{
-    background: linear-gradient(135deg,#1E3A8A,#2563EB);
+    background: linear-gradient(to right, #475569, #64748B);
     border:none;
     color: white;
     box-shadow: 0 5px 15px rgba(37,99,235,0.3);
@@ -178,11 +186,6 @@
     transform:translateX(6px);
 }
 
-.sidebar-link.active-side{
-    background:white;
-    color:#2563EB !important;
-    font-weight:600;
-}
 /* Dark Theme */
 .dark-theme{
     background:#0F172A !important;
