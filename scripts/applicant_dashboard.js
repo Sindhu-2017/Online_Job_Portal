@@ -20,7 +20,38 @@ themeBtn.addEventListener("click",function(){
     }
 });
 
+//pagination
+const rowPerPage=5;
+let currentPage=1;
+
+function paginate(data){
+    const start =(currentPage-1)*rowPerPage;
+    const end =start+rowPerPage;
+    
+    return data.slice(start,end);
+}
+
+function renderPagination(totalRecords,callback,id){
+    const totalPages =Math.ceil (totalRecords/rowPerPage);
+
+    let html ="";
+
+    for(let i=1;i<=totalPages;i++){
+        html+=`
+        <li class="page-item ${currentPage === i ? "active" : ""}">
+            <a class="page-link" href="#" onclick="${callback}(${i})">${i}</a>
+        </li>
+        `;
+    }
+    document.getElementById(id).innerHTML=html;
+}
+function changePage(page,loadFunction){
+    currentPage=page;
+    loadFunction();
+}
+
 const loggedInUser=JSON.parse(localStorage.getItem("loggedInUser"));
+
 
 // console.log(loggedInUser.Fullname);
 //offcanvas data 
@@ -91,21 +122,42 @@ async function loadJobs(){
     let res=await fetch(API.applications);
     let app=await res.json();
 
-    let filteredJobs=jobs.filter(job=>job.Skills.some(skill=>loggedInUser.Skills.includes(skill)) );
+    let filteredJobs=jobs.filter(job=>job.Skills.some(skill=>loggedInUser.Skills.includes(skill)) 
+    && job.Status === "active" &&
+    job.IsDeleted !== true);
 
 
     const search=document.getElementById("searchBox").value.toLowerCase() ;
 
     filteredJobs=filteredJobs.filter(job=> job.JobTitle.toLowerCase().includes(search) ||
                  job.CompanyName.toLowerCase().includes(search) || job.CompanyLocation.toLowerCase().includes(search));
+
+    //date filter
+    const fromdate=document.getElementById("fromdate").value;
+    const todate=document.getElementById("todate").value;
+
+    filteredJobs=filteredJobs.filter(job=>{
+        const pdate=job.PostedDate;
+        if(fromdate && pdate < fromdate ){
+            return false;
+        }
+        if(todate && pdate > todate ){
+            return false;
+        }
+        return true;
+
+    });
    
     // document.getElementById("postCount").innerText=jobs.length;
     filteredJobs.sort((a,b)=>new Date(b.PostedDate) - new Date(a.PostedDate) );
     let cards = "";
 
-    filteredJobs.forEach(job => {
+    const paginatedJobs=paginate(filteredJobs);
 
-        let appl=app.find(app=>app.JobID === job.id)
+
+    paginatedJobs.forEach(job => {
+
+        let appl=app.find(app=>app.JobID === job.id &&  app.ApplicantID === loggedInUser.id)
 
         cards += `
         <div class="col-md-6 col-12 my-4 d-flex justify-content-center">
@@ -137,6 +189,10 @@ async function loadJobs(){
     });
 
     document.getElementById("jobCards").innerHTML = cards;
+
+    //pagination
+    renderPagination(filteredJobs.length,"pageJobs","jobPagination");
+
 }
 
 //sidebar options
@@ -181,7 +237,10 @@ async function applyJob(id){
         const result=await Swal.fire({
             icon:"question",
             title:"Apply",
-            text:"Are you sure to apply this job"
+            text:"Are you sure to apply this job",
+            showCancelButton:true,
+            confirmButtonText:"Yes",
+            cancelButtonText:"No"
         }) ;
 
         if(result.isConfirmed){
@@ -197,6 +256,9 @@ async function applyJob(id){
                 title:"Application"
             });
         }
+
+        loadJobs();
+        loadCount();
     }
     catch(error){
         await Swal.fire({
@@ -283,7 +345,10 @@ async function loadAppliedJobs(filter) {
 
     let cards="";
 
-    myApplications.forEach(app=>{
+    const paginatedApp=paginate(myApplications);
+
+
+    paginatedApp.forEach(app=>{
         let job=jobs.find(job=>job.id === app.JobID);
 
         if(!job){
@@ -315,7 +380,8 @@ async function loadAppliedJobs(filter) {
         `;
     });
     document.getElementById("appliedJobsContainer").innerHTML=cards;
-
+    //pagination
+    renderPagination(myApplications.length,"appJobs","appPagination");
 }
 
 
@@ -366,8 +432,6 @@ async function loadCount() {
 
 //initial load
 loadCount();
-
-
 //activate card
 const appCard=document.getElementById("appCard");
 const selectedCard=document.getElementById("selectedCard");
@@ -421,7 +485,27 @@ function clearCards(){
     appCard.classList.remove("active-card");
 }
 
+//pagination
+function pageJobs(page){
+    changePage(page,loadJobs);
+}
+function appJobs(page){
+    changePage(page,loadAppliedJobs);
+}
+
 
 //search
-document.getElementById("searchBox").addEventListener("input",loadJobs);
+document.getElementById("searchBox").addEventListener("input",()=>{
+    currentPage = 1;
+    loadJobs();
+});
 
+document.getElementById("fromdate").addEventListener("change", () => {
+    loadJobs();
+    currentPage = 1;
+});
+
+document.getElementById("todate").addEventListener("change", () => {
+    currentPage = 1;
+    loadJobs();
+});

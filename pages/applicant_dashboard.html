@@ -14,9 +14,9 @@
         
         <h2 class="fw-bold fs-2 text-center"><i class="bi bi-briefcase-fill text-warning fs-3 me-2"></i>Hirehub</h2>
 
-        <a class="ms-2 fs-5" id="jobSidebar"><i class="bi bi-clipboard2-check-fill me-2"></i>Jobs</a>
-        <a class="ms-2 fs-5" id="appSidebar"><i class="bi bi-file-earmark-person-fill me-2"></i>Applied Jobs</a>
-        <a class="ms-2 fs-5" id="deactivate"><i class="bi bi-person-x-fill me-2"></i>Deactivate</a>
+        <a class="ms-2" id="jobSidebar"><i class="bi bi-clipboard2-check-fill me-2"></i>Jobs</a>
+        <a class="ms-2" id="appSidebar"><i class="bi bi-file-earmark-person-fill me-2"></i>Applied Jobs</a>
+        <a class="ms-2" id="deactivate"><i class="bi bi-person-x-fill me-2"></i>Deactivate</a>
         <a class="btn btn-danger fw-bold p-2" id="logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a> 
 
     </div>
@@ -29,7 +29,21 @@
         </div>
     
         <div class="container mt-5" id="searchContainer">
-            <input type="text" id="searchBox" class="form-control" placeholder="🔍 Enter Role , Company Name or Location">
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <label class="form-label">Job Title,Company Name or Location</label>
+                    <input type="text" id="searchBox" class="form-control" placeholder="🔍 Enter Role , Company Name or Location">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">From Date</label>
+                    <input type="date" class="form-control" id="fromdate">
+                    </div>
+                <div class="col-md-4">
+                    <label class="form-label">To Date</label>
+
+                    <input type="date" class="form-control" id="todate">
+                </div>
+            </div>
         </div>
 
         <div class="container-fluid  mt-5" id="mainCards">
@@ -80,14 +94,19 @@
         <!-- job container -->
         <div class="container-fluid mt-4" id="jobContainer">
             <div class="row" id="jobCards"></div>
+
+            <nav class="mt-4 d-flex justify-content-center">
+                <ul class="pagination" id="jobPagination"></ul>
+            </nav>  
         </div>
 
         <div class="container-fluid mt-4 d-none" id="appContainer">
             <div class="row" id="appliedJobsContainer"></div>
-        </div>
 
-        
-        <div class="pagination" id="pagination">
+            <nav class="mt-4 d-flex justify-content-center">
+                <ul class="pagination" id="appPagination"></ul>
+            </nav>  
+        </div>
 
         </div>
     </div>

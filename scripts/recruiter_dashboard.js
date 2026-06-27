@@ -26,6 +26,35 @@ themeBtn.addEventListener("click",function(){
 const loggedInUser=JSON.parse(localStorage.getItem("loggedInUser"));
 let editId=null;
 
+//pagination
+const rowPerPage=5;
+let currentPage=1;
+
+function paginate(data){
+    const start =(currentPage-1)*rowPerPage;
+    const end =start+rowPerPage;
+    
+    return data.slice(start,end);
+}
+
+function renderPagination(totalRecords,callback,id){
+    const totalPages =Math.ceil (totalRecords/rowPerPage);
+
+    let html ="";
+
+    for(let i=1;i<=totalPages;i++){
+        html+=`
+        <li class="page-item ${currentPage === i ? "active" : ""}">
+            <a class="page-link" href="#" onclick="${callback}(${i})">${i}</a>
+        </li>
+        `;
+    }
+    document.getElementById(id).innerHTML=html;
+}
+function changePage(page,loadFunction){
+    currentPage=page;
+    loadFunction();
+}
 //offcanvas data 
 document.getElementById("fullname").innerText=loggedInUser.Fullname;
 document.getElementById("dob").innerText=loggedInUser.DateOfBirth;
@@ -34,9 +63,7 @@ document.getElementById("compNam").innerText=loggedInUser.CompanyName;
 document.getElementById("compLoc").innerText=loggedInUser.CompanyLocation;
 
 //logout
-document.getElementById("logout").addEventListener("click",async function(e){
-    e.preventDefault();
-    
+async function logoutUser(){
     const result=await Swal.fire({
         icon:"question",
         title:"Logout",
@@ -47,32 +74,7 @@ document.getElementById("logout").addEventListener("click",async function(e){
         await Swal.fire({
             toast:true,
             icon:"success",
-            text:"logout sucessfully ,redirecting...",
-            showCancelButton:false,
-            timer:2000,
-            timerProgressBar:true
-        });
-        setTimeout(()=>{
-            window.location.href="../index.html";
-        },2000);
-    }
-});
-
-//logout modal
-document.getElementById("logoutModal").addEventListener("click",async function(e){
-    e.preventDefault();
-    
-    const result=await Swal.fire({
-        icon:"question",
-        title:"Logout",
-        text:"Are you sure to logout?"
-    });
-    if(result.isConfirmed){
-        localStorage.removeItem("loggedInUser");
-        await Swal.fire({
-            toast:true,
             position:"top-end",
-            icon:"success",
             text:"logout sucessfully ,redirecting...",
             showCancelButton:false,
             timer:2000,
@@ -82,7 +84,8 @@ document.getElementById("logoutModal").addEventListener("click",async function(e
             window.location.href="../index.html";
         },2000);
     }
-});
+}
+
 
 //deactivate button
 const activateBtn=document.getElementById("deactivate");
@@ -214,11 +217,31 @@ async function loadJobs(){
     filteredJobs=filteredJobs.filter(job=> job.JobTitle.toLowerCase().includes(search) ||
                    job.JobType.toLowerCase().includes(search));
 
+    
+     //date filter
+    const fromdate=document.getElementById("fromdate").value;
+    const todate=document.getElementById("todate").value;
+
+    filteredJobs=filteredJobs.filter(job=>{
+        const pdate=job.PostedDate;
+        if(fromdate && pdate < fromdate ){
+            return false;
+        }
+        if(todate && pdate > todate ){
+            return false;
+        }
+        return true;
+
+    });
+
     filteredJobs.sort((a,b)=>new Date(b.PostedDate)-new Date(a.PostedDate));
 
+    //pagination
+    const paginatedJobs=paginate(filteredJobs);
+    
     let tablebody="";
 
-    filteredJobs.forEach(job=>{
+    paginatedJobs.forEach(job=>{
         tablebody+=`
         <tr>
             <td>${job.JobTitle}</td>
@@ -237,6 +260,10 @@ async function loadJobs(){
         `;
     });
     document.getElementById("jobTBody").innerHTML=tablebody;
+
+    //pagination
+    renderPagination(filteredJobs.length,"pageJobs","jobPagination");
+    
 }
 
 
@@ -332,9 +359,13 @@ async function loadApplication(status){
       
     filteredappl.sort((a,b)=>new Date(b.AppliedDate)-new Date(a.AppliedDate))
 
+   
+
+    const paginatedApplications = paginate(filteredappl);
+
     let tablebody="";
 
-    filteredappl.forEach(appl=>{
+    paginatedApplications.forEach(appl=>{
 
         const job=recruiterJobs.find(job=>job.id === appl.JobID);
         const user=users.find(user=>user.id === appl.ApplicantID);
@@ -354,6 +385,9 @@ async function loadApplication(status){
     });
     document.getElementById("appTBody").innerHTML=tablebody;
 
+    //pagination
+    renderPagination(filteredappl.length,"pageApplications","applicationPagination");
+    
 }
 
 
@@ -470,6 +504,17 @@ document.getElementById("deactivate").addEventListener("click",async function(e)
 loadJobs();
 loadApplication();
 
+//pagination
+function pageJobs(page){
+    changePage(page,loadJobs);
+}
+
+function pageApplications(page){
+    changePage(page, loadApplication);
+}
+function pageDeleted(page){
+    changePage(page, loadDeletedJob);
+}
 
 //for app card and app sidebar
 
@@ -487,10 +532,11 @@ document.getElementById("appCard").addEventListener("click",function(){
 document.getElementById("appSidebar").addEventListener("click",function(){
     document.getElementById("appContainer").classList.remove("d-none");
     document.getElementById("appSidebar").classList.add("active-side");
-    searchContainer.classList.add("d-none");
+   
 
     document.getElementById("jobContainer").classList.add("d-none");
     document.getElementById("jobSidebar").classList.remove("active-side");
+    document.getElementById("deletedContainer").classList.add("d-none");
 
     clearActiveCards();
 })
@@ -521,8 +567,8 @@ document.getElementById("deletedCard").addEventListener("click",function(){
 document.getElementById("jobSidebar").addEventListener("click",function(){
     document.getElementById("jobContainer").classList.remove("d-none");
     document.getElementById("jobSidebar").classList.add("active-side");
-    searchContainer.classList.remove("d-none");
 
+    document.getElementById("deletedContainer").classList.add("d-none");
 
     document.getElementById("appContainer").classList.add("d-none");
     document.getElementById("appSidebar").classList.remove("active-side");
@@ -536,27 +582,29 @@ const postedCard = document.getElementById("postedCard");
 const appCard = document.getElementById("appCard");
 const deletedCard = document.getElementById("deletedCard");
 
-const searchContainer=document.getElementById("searchContainer");
+
 
 postedCard.addEventListener("click", function () {
     postedCard.classList.add("active-card");
     appCard.classList.remove("active-card");
     deletedCard.classList.remove("active-card");
-    searchContainer.classList.remove("d-none");
+
+
+
 });
 
 appCard.addEventListener("click", function () {
     appCard.classList.add("active-card");
     postedCard.classList.remove("active-card");
     deletedCard.classList.remove("active-card");
-    searchContainer.classList.add("d-none");
+
+    
 });
 
 deletedCard.addEventListener("click", function () {
     deletedCard.classList.add("active-card");
     appCard.classList.remove("active-card");
     postedCard.classList.remove("active-card");
-    searchContainer.classList.add("d-none");
 
 });
 
@@ -572,7 +620,22 @@ function clearSidebars(){
 }
 
 //search
-document.getElementById("searchBox").addEventListener("input",loadJobs);
+document.getElementById("searchBox").addEventListener("input",()=>{
+    //pagination
+    currentPage = 1;
+    loadJobs();
+});
+
+//date filter
+
+document.getElementById("fromdate").addEventListener("change",()=>{
+    currentPage=1;
+    loadJobs();
+})
+document.getElementById("todate").addEventListener("change",()=>{
+    currentPage=1;
+    loadJobs();
+})
 
 async function loadDeletedJob(){
 
@@ -581,9 +644,12 @@ async function loadDeletedJob(){
 
     let deleteJobs=jobs.filter(job=>job.RecruiterID === loggedInUser.id && job.IsDeleted ===true );
 
+   
+    const paginatedDeleted = paginate(deleteJobs);
+
     let tablebody="";
 
-    deleteJobs.forEach(job=>{
+    paginatedDeleted.forEach(job=>{
         tablebody+=`
         <tr>
             <td>${job.JobTitle}</td>
@@ -602,6 +668,8 @@ async function loadDeletedJob(){
     });
     document.getElementById("deletedTBody").innerHTML=tablebody;
 
+    //pagination
+    renderPagination(deleteJobs.length,"pageDeleted","deletedPagination");    
 }
 async function restoreJob(id) {
 
@@ -637,4 +705,19 @@ async function restoreJob(id) {
         } 
     }
     loadDeletedJob();
+}
+
+
+
+function showApplicationStatus(status){
+
+    document.getElementById("appContainer").classList.remove("d-none");
+    document.getElementById("appContainer").classList.add("d-block");
+
+    document.getElementById("jobContainer").classList.add("d-none");
+    document.getElementById("deletedContainer").classList.add("d-none");
+
+  
+
+    loadApplication(status);
 }
