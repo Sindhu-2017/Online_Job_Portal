@@ -1,5 +1,6 @@
 # folder structure
 
+```
 HireHub/
 │
 +-----assets/
@@ -31,7 +32,7 @@ HireHub/
 +----- index.html
 +----- README.md
 +-----Jobportal.sql
-
+```
 
 # How to Run the Project
 
