@@ -62,6 +62,9 @@ document.getElementById("role").innerText=loggedInUser.Role;
 document.getElementById("compNam").innerText=loggedInUser.CompanyName;
 document.getElementById("compLoc").innerText=loggedInUser.CompanyLocation;
 
+//welcome section
+document.getElementById("welcomeName").innerText=loggedInUser.Fullname;
+
 //logout
 async function logoutUser(){
     const result=await Swal.fire({
@@ -100,15 +103,15 @@ else{
     activateBtn.innerHTML=`<i class="bi bi-person-check-fill me-2"></i>Activate`;
 }
 
-//loading company name and location
+//loading modal
 document.getElementById("postBtn").addEventListener("click",function(){
-    document.getElementById("compName").value=loggedInUser.CompanyName;
-    document.getElementById("compLocation").value=loggedInUser.CompanyLocation;
+
+    resetJobModal();
+
 });
 
 //posting job 
-document.getElementById("postJobBtn").addEventListener("click",async function(){
-    
+document.getElementById("postJobBtn").addEventListener("click",async function(){    
     
     const CompanyName=document.getElementById("compName").value;
     const CompanyLocation=document.getElementById("compLocation").value;
@@ -117,13 +120,14 @@ document.getElementById("postJobBtn").addEventListener("click",async function(){
     const skills=[...document.querySelectorAll(".skill:checked")].map(skill=>skill.value);
     const Salary=document.getElementById("salary").value;
     const JobType=document.getElementById("jobType").value;
+    const Experience=document.getElementById("experience").value;
     const Status=document.getElementById("status").value;
 
     const recruiterId=loggedInUser.id;
     const today=new Date().toISOString().split("T")[0];
   
 
-    if(!CompanyName || !CompanyLocation || !JobTitle || !Description || skills.length === 0 || !Salary || !JobType || !Status){
+    if(!CompanyName || !CompanyLocation || !JobTitle || !Description || skills.length === 0 || !Salary || !JobType || !Experience ||!Status){
         await Swal.fire({
             icon:"warning",
             title:"Missing fields",
@@ -136,11 +140,12 @@ document.getElementById("postJobBtn").addEventListener("click",async function(){
     let Jobs={
         CompanyName:CompanyName,
         CompanyLocation:CompanyLocation,
-        JobTitle:JobTitle,
+        JobTitle:JobTitle.split(" ").map(word=> word.charAt(0).toUpperCase()+word.slice(1).toLowerCase()).join(" "),
         Description:Description,
         Skills:skills,
         Salary:Salary,
         JobType:JobType,
+        Experience:Experience,
         RecruiterID:recruiterId,
         PostedDate:today,
         Status:Status,
@@ -172,6 +177,11 @@ document.getElementById("postJobBtn").addEventListener("click",async function(){
                 });
             }
             else{
+                const resp=await fetch(`${API.jobs}/${editId}`);
+                const oldJob=await resp.json();
+
+                Jobs.PostedDate=oldJob.PostedDate;
+
                 await fetch(`${API.jobs}/${editId}`,{
                     method:"PATCH",
                     headers:{"Content-Type":"application/json"},
@@ -191,6 +201,7 @@ document.getElementById("postJobBtn").addEventListener("click",async function(){
             bootstrap.Modal.getOrCreateInstance(document.getElementById("postJob")).hide();
 
             loadJobs();
+            window.location.reload();
         }
 
     }
@@ -221,7 +232,7 @@ async function loadJobs(){
 
     const search=document.getElementById("searchBox").value.toLowerCase();
     filteredJobs=filteredJobs.filter(job=> job.JobTitle.toLowerCase().includes(search) ||
-                   job.JobType.toLowerCase().includes(search));
+                   job.JobType.toLowerCase().includes(search) || job.Status.toLowerCase().includes(search));
 
     
      //date filter
@@ -257,8 +268,8 @@ async function loadJobs(){
             <td>${job.PostedDate.split("-").reverse().join("-")}</td>
             <td>${job.Status}</td>
             <td class="text-center">
-                <button class="btn btn-warning" onclick="editJob('${job.id}')" title="Edit Task"><i class="bi bi-pencil"></i></button>
-                <button class="btn btn-danger" onclick="deleteJob('${job.id}')" title="Delete Task"><i class="bi bi-trash3"></i></button>
+                <button class="btn btn-warning btn-sm" onclick="editJob('${job.id}')" title="Edit Task"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-danger btn-sm ms-2" onclick="deleteJob('${job.id}')" title="Delete Task"><i class="bi bi-trash3"></i></button>
             </td>
 
 
@@ -271,7 +282,29 @@ async function loadJobs(){
     renderPagination(filteredJobs.length,"pageJobs","jobPagination");
     
 }
+//reset
+function resetJobModal(){
 
+    editId = null;
+
+    document.getElementById("modalTitle").innerHTML =`<i class="bi bi-folder-plus me-2"></i>Post Job`;
+
+    document.getElementById("postJobBtn").innerHTML = `<i class="bi bi-send-fill me-2"></i>Post`;
+
+    document.getElementById("compName").value = loggedInUser.CompanyName;
+    document.getElementById("compLocation").value = loggedInUser.CompanyLocation;
+
+    document.getElementById("jobTitle").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("salary").value = "";
+    document.getElementById("jobType").value = "";
+    document.getElementById("status").value = "";
+
+    document.querySelectorAll(".skill").forEach(skill=>{
+        skill.checked = false;
+    });
+
+}
 
 //edit job
 async function editJob(id) {
@@ -280,11 +313,10 @@ async function editJob(id) {
      let response=await fetch(`${API.jobs}/${id}`);
      let jobs=await response.json();
 
-     document.getElementById("compName").value=jobs.CompanyName;
-     document.getElementById("compLocation").value=jobs.CompanyLocation;
-     document.getElementById("jobTitle").value=jobs.JobTitle;
-     document.getElementById("description").value=jobs.Description;
-     document.getElementById("description").value=jobs.Description;
+    document.getElementById("compName").value=jobs.CompanyName;
+    document.getElementById("compLocation").value=jobs.CompanyLocation;
+    document.getElementById("jobTitle").value=jobs.JobTitle;
+    document.getElementById("description").value=jobs.Description;
     document.querySelectorAll(".skill").forEach(skill=>{
         skill.checked=jobs.Skills.includes(skill.value);
     })
@@ -384,7 +416,7 @@ async function loadApplication(status){
             <td>${appl.AppliedDate.split("-").reverse().join("-")}</td>
             <td>${appl.ApplicationStatus}</td>
             <td class="text-center">
-                <button class="btn btn-danger" onclick="viewApplicant('${appl.ApplicantID}','${appl.JobID}')" 
+                <button class="btn btn-sm" style="background:#C1121F;color:white;" onclick="viewApplicant('${appl.ApplicantID}','${appl.JobID}')" 
                 data-bs-toggle="modal" data-bs-target="#viewApplicant" title="View Applicant Details"><i class="bi bi-eye"></i></button>                
             </td>
         </tr>
@@ -739,6 +771,7 @@ function showApplicationStatus(status){
     document.getElementById("deletedContainer").classList.add("d-none");
 
     searchContainer.classList.add("d-none");
+    clearActiveCards();
 
     loadApplication(status);
 }

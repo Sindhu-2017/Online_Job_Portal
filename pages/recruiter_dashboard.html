@@ -32,6 +32,9 @@
     </div>
     <div id="main-container">
         <div class="top-bar">
+            <div class="welcome-section my-2 me-4">
+                <h4 class="mb-0">Welcome ,<span id="welcomeName"></span> 👋</h4>
+            </div>
             <button class="btn me-2 fs-6 primary-btn" id="postBtn" data-bs-toggle="modal" data-bs-target="#postJob"><i class="bi bi-folder-plus me-2"></i>Post</button>
             <button class="btn me-2 fs-6 primary-btn" id="themeBtn"><i class="bi bi-moon-stars-fill"></i></button>
             <button class="btn me-2 fs-6 primary-btn" id="accBtn" data-bs-toggle="offcanvas" data-bs-target="#myAcc"><i class="bi bi-person-fill"></i></button>
@@ -44,7 +47,7 @@
                     <label class="form-label">Search</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
-                        <input type="text" id="searchBox" class="form-control" placeholder="search Jobtype or Job title">                  
+                        <input type="text" id="searchBox" class="form-control" placeholder="search Jobtype, Job title or Status">                  
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -88,7 +91,7 @@
                         <div class="card-body text-center">
                             <a class="text-center text-decoration-none fs-6 fw-bold">
                                 <i class="bi bi-people-fill fs-6 text-secondary"></i>
-                                Application<span class="badge bg-danger ms-2" id="appCount">0</span>
+                                Application<span class="badge ms-2" id="appCount" style="background:#2563EB;color:white;">0</span>
                             </a>
                         </div>
                     </div>
@@ -99,7 +102,7 @@
                         <div class="card-body text-center">
                             <a class="text-center text-decoration-none fs-6 fw-bold">
                                 <i class="bi bi-briefcase-fill fs-6 text-secondary"></i>
-                                Posted Jobs<span class="badge bg-danger ms-2" id="postCount">0</span>
+                                Posted Jobs<span class="badge ms-2" id="postCount" style="background:#198754;color:white;">0</span>
                             </a>
                         </div>
                     </div>
@@ -110,7 +113,7 @@
                         <div class="card-body text-center">
                             <a class="text-center text-decoration-none fs-6 fw-bold">
                                 <i class="bi bi-trash3-fill fs- text-secondary"></i>
-                                Deleted Jobs<span class="badge bg-danger ms-2" id="deletedCount">0</span>
+                                Deleted Jobs<span class="badge ms-2" id="deletedCount" style="background:#F59E0B;color:white;">0</span>
                             </a>
                         </div>
                     </div>
@@ -218,7 +221,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title ls-1" id="modalTitle"><i class="bi bi-folder-plus me-2"></i>Post Job</h2>
+                    <h4 class="modal-title ls-1" id="modalTitle"><i class="bi bi-folder-plus me-2"></i>Post Job</h4>
                     <button class="btn-close " data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -283,8 +286,19 @@
                                     <input class="form-check-input skill" type="checkbox" value="jQuery" id="jquery">
                                     <label class="form-check-label" for="jquery">jQuery</label>
                                 </div>
+
+                                 <div class="form-check">
+                                    <input class="form-check-input skill" type="checkbox" value="Figma" id="Figma">
+                                    <label class="form-check-label" for="Figma">Figma</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input skill" type="checkbox" value="Angular" id="Angular">
+                                    <label class="form-check-label" for="Angular">Angular</label>
+                                </div>
                             </div>
 
+                            
                             <div class="col-6">
                                 <div class="form-check">
                                     <input class="form-check-input skill" type="checkbox" value="React" id="react">
@@ -310,11 +324,22 @@
                                     <input class="form-check-input skill" type="checkbox" value="Python" id="python">
                                     <label class="form-check-label" for="python">Python</label>
                                 </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input skill" type="checkbox" value="C#" id="C#">
+                                    <label class="form-check-label" for="C#">C#</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input skill" type="checkbox" value="MySQL" id="MySQL">
+                                    <label class="form-check-label" for="MySQL">MySQL</label>
+                                </div>
                             </div>
 
                         </div>
 
                     </div>
+                    
 
                     <!-- Salary -->
                     <label class="form-label mb-2 mt-3" for="salary">Salary</label>
@@ -332,6 +357,13 @@
                             <option value="FullTime">Full Time</option>
                             <option value="PartTime">Part Time</option>
                         </select>
+                    </div>
+
+                    <!-- Experience -->
+                    <label class="form-label mb-2 mt-3" for="experience">Experience</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-hourglass-split"></i></span>
+                        <input type="number" class="form-control" id="experience" placeholder="experience in years">
                     </div>
 
                     <!-- job status -->
@@ -360,7 +392,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title ls-1">View Applicant</h2>
+                    <h4 class="modal-title ls-1"><i class="bi bi-person-circle me-2"></i>View Applicant</h4>
                     <button class="btn-close " data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">

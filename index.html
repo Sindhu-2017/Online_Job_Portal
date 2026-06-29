@@ -12,7 +12,7 @@
 
     <!-- navigation container -->
     <div class="container-fluid" id="navContainer">
-        <nav class="navbar navbar-expand-lg p-3">
+        <nav class="navbar navbar-expand-lg p-2">
             <a class="navbar-brand text-white fw-bold fs-4">
                  <i class="bi bi-briefcase-fill text-warning fs-3"></i>
                 HireHub</a>
@@ -106,8 +106,8 @@
     <div class="modal fade" id="loginModal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title fw-bold">
+                <div class="modal-header position-relative">
+                    <h3 class="modal-title fw-bold text-center w-100">
                         Login
                     </h3>
                     <span class="ms-auto">
@@ -118,16 +118,17 @@
                 <div class="modal-body">
 
                     <label class="form-label mt-3" for="email">Email <span class="text-danger">*</span></label>
-                    <div class="input-group">
+                    <div class="input-group has-validation">
                         <span class="input-group-text" id="emailGroup"><i class="bi bi-envelope-fill fs-4"></i></span>
                         <input type="email" id="email" class="form-control" placeholder="enter your email">
                         <div class="invalid-feedback">
                             Invalid email or Empty username
                         </div>
                     </div>
+                    
 
                     <label class="form-label mt-3" for="password">Password <span class="text-danger">*</span></label>
-                    <div class="input-group">
+                    <div class="input-group has-validation">
                         <span class="input-group-text" id="passGroup"><i class="bi bi-lock-fill fs-4"></i></span>                    
                         <input type="password" id="password" class="form-control" placeholder="enter your password">
                         <div class="invalid-feedback">
@@ -144,6 +145,81 @@
             </div>
         </div>
     </div> 
+
+    <div class="container" id="faqContainer">
+        <div class="text-center mb-5">
+            <h4 class="fw-bold">Frequently Asked Questions</h4>
+            <p class="text-muted">Find answers to common questions about HireHub.</p>
+        </div>
+
+        <div class="accordion" id="faqAccoridion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        How do I apply for a job?
+                    </button>
+                </h2>
+                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="faqAccoridion">
+                    <div class="accordion-body">
+                        Create an account, complete your profile, upload your resume, and click the <strong>Apply</strong> button on any job listing.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        Is registration free?
+                    </button>
+                </h2>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="faqAccoridion">
+                    <div class="accordion-body">
+                        Yes. Creating an applicant or recruiter account on HireHub is completely free.  
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq3">
+                         How can recruiters post jobs?
+                    </button>
+                </h2>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="faqAccoridion">
+                    <div class="accordion-body">
+                        Recruiters can sign up as a Recruiter, log in, and use the dashboard to create and manage job postings.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq4">
+                        Can I apply for multiple jobs?
+                    </button>
+                </h2>
+                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Yes. You can apply for as many jobs as you are eligible for using the same account.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq5">
+                        How do I track my applications?
+                    </button>
+                </h2>
+                <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        After logging in, visit your Applicant Dashboard to view the status of all your applications.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 
 
     <!-- footer -->

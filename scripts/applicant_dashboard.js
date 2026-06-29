@@ -21,7 +21,7 @@ themeBtn.addEventListener("click",function(){
 });
 
 //pagination
-const rowPerPage=5;
+const rowPerPage=6;
 let currentPage=1;
 
 function paginate(data){
@@ -51,20 +51,20 @@ function changePage(page,loadFunction){
 }
 
 const loggedInUser=JSON.parse(localStorage.getItem("loggedInUser"));
-
-
+//welcome section
+document.getElementById("welcomeName").innerText=loggedInUser.Fullname;
 // console.log(loggedInUser.Fullname);
 //offcanvas data 
 document.getElementById("fullname").innerText=loggedInUser.Fullname;
-document.getElementById("dob").innerText=loggedInUser.DateOfBirth;
+document.getElementById("dob").innerText=loggedInUser.DateOfBirth.split("-").reverse().join("-");
 document.getElementById("email").innerText=loggedInUser.Email;
 document.getElementById("qual").innerText=loggedInUser.Qualification;
+document.getElementById("role").innerText=loggedInUser.Role;
 document.getElementById("exp").innerText=loggedInUser.Experience;
 
 //logout
-document.getElementById("logout").addEventListener("click",async function(e){
-    e.preventDefault();
-    
+//logout
+async function logoutUser(){
     const result=await Swal.fire({
         icon:"question",
         title:"Logout",
@@ -72,7 +72,7 @@ document.getElementById("logout").addEventListener("click",async function(e){
         showCancelButton:true,
         confirmButtonColor:"#3085d6",
         cancelButtonColor:"#d33",
-        confirmButtonText:"Yes" 
+        confirmButtonText:"Yes"        
     });
     if(result.isConfirmed){
         localStorage.removeItem("loggedInUser");
@@ -86,36 +86,9 @@ document.getElementById("logout").addEventListener("click",async function(e){
             timerProgressBar:true
         });
         window.location.href="../index.html";
+        
     }
-});
-
-//logout modal
-document.getElementById("logoutModal").addEventListener("click",async function(e){
-    e.preventDefault();
-    
-    const result=await Swal.fire({
-        icon:"question",
-        title:"Logout",
-        text:"Are you sure to logout?"
-    });
-    if(result.isConfirmed){
-        localStorage.removeItem("loggedInUser");
-        await Swal.fire({
-            toast:true,
-            position:"top-end",
-            icon:"success",
-            text:"logout sucessfully ,redirecting...",
-            showCancelButton:false,
-            timer:2000,
-            timerProgressBar:true
-        });
-        setTimeout(()=>{
-            window.location.href="../index.html";
-        },2000);
-    }
-});
-
-
+}
 
 // displaying jobs
 async function loadJobs(){
@@ -126,13 +99,13 @@ async function loadJobs(){
     let app=await res.json();
 
     let filteredJobs=jobs.filter(job=>job.Skills.some(skill=>loggedInUser.Skills.includes(skill)) 
-    && job.Status === "active" &&
+    && job.Status === "Active" &&
     job.IsDeleted !== true);
 
 
     const search=document.getElementById("searchBox").value.toLowerCase() ;
 
-    filteredJobs=filteredJobs.filter(job=> job.JobTitle.toLowerCase().includes(search) ||
+    filteredJobs=filteredJobs.filter(job=> job.JobTitle.toLowerCase().includes(search) ||job.Salary.includes(search) ||
                  job.CompanyName.toLowerCase().includes(search) || job.CompanyLocation.toLowerCase().includes(search));
 
     //date filter
@@ -150,6 +123,10 @@ async function loadJobs(){
         return true;
 
     });
+
+    if(filteredJobs.length === 0){
+        document.getElementById("noJobs").classList.remove("d-none");
+    }
    
     // document.getElementById("postCount").innerText=jobs.length;
     filteredJobs.sort((a,b)=>new Date(b.PostedDate) - new Date(a.PostedDate) );
@@ -167,15 +144,17 @@ async function loadJobs(){
 
             <div class="card shadow h-100 w-75">
                 <div class="card-header">
-                    <h4 class="card-title text-center">${job.JobTitle}</h4>
+                    <h4 class="card-title text-center"><i class="bi bi-award-fill me-2"></i>${job.JobTitle}</h4>
                 </div>
                 <div class="card-body">
 
-                    <p><strong>Company:</strong> ${job.CompanyName}</p>
-                    <p><strong>Location:</strong> ${job.CompanyLocation}</p>
-                    <p><strong>Salary:</strong> ₹${job.Salary}</p>
-                    <p><strong>Skills:</strong> ${job.Skills.join(", ")}</p>
-                    <p><strong>Posted:</strong> ${job.PostedDate}</p>
+                    <p><strong><i class="bi bi-building-fill info-icon"></i>Company:</strong> ${job.CompanyName}</p>
+                    <p><strong><i class="bi bi-geo-alt-fill info-icon"></i>Location:</strong> ${job.CompanyLocation}</p>
+                    <p><strong><i class="bi bi-cash-stack info-icon"></i>Salary:</strong> ₹${job.Salary}</p>
+                    <p><strong><i class="bi bi-briefcase info-icon"></i>Job Type:</strong> ${job.JobType}</p>
+                    <p><strong><i class="bi bi-tools info-icon"></i>Skills:</strong> ${job.Skills.join(", ")}</p>
+                    <p><strong><i class="bi bi-hourglass-split info-icon"></i>Experience:</strong> ${job.Experience}</p>
+                    <p><strong><i class="bi bi-calendar-event-fill info-icon"></i>Posted:</strong> ${job.PostedDate.split("-").reverse().join("-")}</p>
 
                     <button class="btn btn-primary w-100" id="applyBtn"
                         onclick="applyJob('${job.id}')" ${appl && (appl.ApplicationStatus === "Applied" || appl.ApplicationStatus ===  "Selected" || 
@@ -232,7 +211,7 @@ async function applyJob(id){
     let applications={
         JobID:id,
         ApplicantID:loggedInUser.id,
-        AppliedDate:formattedDate,
+        AppliedDate:AppliedDate,
         ApplicationStatus:"Applied"
     }
 
@@ -363,15 +342,16 @@ async function loadAppliedJobs(filter) {
         <div class="col-md-6 col-12 my-4 d-flex justify-content-center">
             <div class="card shadow h-100 w-75">
                 <div class="card-header">
-                    <h4 class="card-title text-center">${job.JobTitle}</h4>
+                    <h4 class="card-title text-center"><i class="bi bi-award-fill me-2"></i>${job.JobTitle}</h4>
                 </div>
                 <div class="card-body">
-                    <p><strong>Company:</strong>${job.CompanyName}</p>
-                    <p><strong>Location:</strong>${job.CompanyLocation}</p>
-                    <p><strong>Salary:</strong>${job.Salary}</p>
-                    <p><strong>Job Type:</strong>${job.JobType}</p>
-                    <p><strong>Skills:</strong>${job.Skills.join(",")}</p>
-                    <p><strong>Applied Date:</strong>${app.AppliedDate}</p>
+                    <p><strong><i class="bi bi-building-fill info-icon"></i>Company:</strong>${job.CompanyName}</p>
+                    <p><strong><i class="bi bi-geo-alt-fill info-icon"></i>Location:</strong>${job.CompanyLocation}</p>
+                    <p><strong><i class="bi bi-cash-stack info-icon"></i>Salary:</strong>${job.Salary}</p>
+                    <p><strong><i class="bi bi-briefcase info-icon"></i>Job Type:</strong>${job.JobType}</p>
+                    <p><strong><i class="bi bi-tools info-icon"></i>Skills:</strong>${job.Skills.join(",")}</p>
+                    <p><strong><i class="bi bi-hourglass-split info-icon"></i>Experience:</strong>${job.Experience}</p>
+                    <p><strong><i class="bi bi-calendar-event-fill info-icon"></i>Applied Date:</strong>${app.AppliedDate.split("-").reverse().join("-")}</p>
 
                 </div>
                 <div class="card-footer text-center">

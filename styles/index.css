@@ -1,19 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
 *{
-    font-family: "Poppins",sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+html,body{
+   font-family: 'Plus Jakarta Sans', sans-serif; 
 }
 body{
-    background-color: #F8FAFC;
+    background: linear-gradient(160deg,#f8fafc ,#e2e8f0 , #f1f5f9);
     background-size: 400% 400%;
-    animation: gradientMove 12s ease infinite;
 }
-@keyframes gradientMove {
-    0%{background-position: 0% 50%;}
-    50%{background-position: 100% 50%;}
-    100%{background-position: 0% 50%;}
-}
+
 #navContainer{
-    background: linear-gradient(135deg, #475569, #64748B);
+    background: linear-gradient(160deg, #2d3748, #4a5568, #718096);
     top:0;
     left:0;
     position:sticky;
@@ -21,7 +20,7 @@ body{
 }
 
 footer{
-    background: linear-gradient(135deg, #475569, #64748B);
+    background: linear-gradient(160deg, #2d3748, #4a5568, #718096);
     margin-top:100px;
 }
 .card{
@@ -35,10 +34,10 @@ footer{
     text-align: center;
 }
 .card-header{
-    background: linear-gradient(135deg, #475569, #64748B);
+    background: linear-gradient(160deg, #2d3748, #4a5568, #718096);
 }
 #loginBtn,#signBtn,#getBtn,#themeBtn,#login,#emailGroup,#passGroup{
-    background: linear-gradient(135deg,#4B5563,#6B7280);
+    background: linear-gradient(160deg, #2d3748, #4a5568, #718096);
     color:white;
     font-weight:600;
     border:none;
@@ -59,6 +58,7 @@ img{
 #heroContainer{
     margin-top: 100px;
 }
+
 .navbar-brand{
     letter-spacing: 1px;
 }
@@ -67,13 +67,44 @@ img{
 }
 #cardContainer .card{
     border-radius: 30px;
+     font-family:inherit;
 }
 #cardContainer .card-header{
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
 }
-#loginModal .input-group{
-    border-radius: 50px;
+#loginModal .modal-content {
+    border-radius: 20px;
+}
+#loginModal .form-control{
+    height:40px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+#loginModal .input-group-text{
+    height:40px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+#login{
+    border-radius: 15px;
+}
+#loginModal .card-title{
+    color:#24324A;
+}
+#cardContainer .card:hover{
+    transform: translateY(-12px);
+}
+#faqContainer{
+    margin-top:100px;
+    margin-bottom:30px;
+}
+#faqContainer h2{
+    color:#24324A;
+}
+.accordion-body{
+    background:#f8fafc;
+    line-height:1.8;
 }
 /* dark theme */
 .dark-theme{
@@ -111,6 +142,24 @@ img{
 
 .dark-theme .input-group-text{
     background: #2563EB;
+}
+.dark-theme .accordion-item{
+    background:#24324A;
+    border:1px solid #3B82F6;
+}
+
+.dark-theme .accordion-button{
+    background:#24324A;
+    color:white;
+}
+
+.dark-theme .accordion-button:not(.collapsed){
+    background:#1D4ED8;
+}
+
+.dark-theme .accordion-body{
+    background:#334155;
+    color:white;
 }
 .dark-theme footer{
     background: #24324A;
