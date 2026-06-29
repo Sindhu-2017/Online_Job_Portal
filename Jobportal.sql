@@ -1,4 +1,5 @@
-use assessment
+create database externalassessment
+use externalassessment
 
 
 CREATE TABLE users
@@ -45,6 +46,7 @@ CREATE TABLE jobs
 	JobType VARCHAR(10) CHECK(JobType IN('FullTime','PartTime')),
 	RecruiterID INT FOREIGN KEY REFERENCES recruiter(ID) ,
 	PostedDate DATE DEFAULT GETDATE(),
+	ClosingDate Date NOT NULL,
 	Status VARCHAR(10) CHECK(Status IN('Active','Inactive')),
 	IsDeleted BIT DEFAULT 0
 );
@@ -58,6 +60,7 @@ CREATE TABLE applications
 	ApplicationStatus VARCHAR(20) CHECK(ApplicationStatus IN ('Called For Interview','ShortListed','Selected','Rejected'))
 );
 
+--INDEXES
 CREATE INDEX IDX_JOBTITLE
 ON jobs(JobTitle)
 
@@ -72,6 +75,15 @@ ON jobs(CompanyName)
 
 CREATE INDEX IDX_Location
 ON jobs(CompanyLocation)
+
+CREATE INDEX IDX_COMPLOCATION
+ON jobs(CompanyName,CompanyLocation)
+
+CREATE INDEX IDX_JOBS
+ON jobs(JobTitle) INCLUDE(CompanyName,CompanyLocation)
+
+CREATE INDEX IDX_POSTDATE
+ON jobs(PostedDate)
 
 
 --sample insertions
@@ -95,12 +107,12 @@ INSERT INTO applicant (UserID, Role, Qualification, Experience) VALUES
 (5, 'Applicant', 'MCA', 1),
 (6, 'Applicant', 'B.Sc Information Technology', 5);
 
-INSERT INTO jobs (CompanyName, CompanyLocation, JobTitle, Description, Salary, JobType, RecruiterID, PostedDate, Status, IsDeleted) VALUES
-('TechCorp Solutions', 'Bangalore', 'Software Engineer', 'Looking for a backend developer proficient in SQL.', 85000.00, 'FullTime', 1, '2026-06-11', 'Active', 0),
-('TechCorp Solutions', 'Bangalore', 'Database Administrator', 'Expertise in database design and indexing needed.', 95000.00, 'FullTime', 1, '2026-06-12', 'Active', 0),
-('Innovate Edge LLC', 'Mumbai', 'Frontend Developer', 'UI/UX development using modern JS frameworks.', 70000.00, 'FullTime', 2, '2026-06-15', 'Active', 0),
-('Innovate Edge LLC', 'Mumbai', 'Data Analyst Intern', 'Data cleaning and basic reporting dashboard help.', 25000.00, 'PartTime', 2, '2026-06-18', 'Active', 0),
-('Global Talents', 'Chennai', 'HR Executive', 'End to end recruitment pipeline processing.', 45000.00, 'FullTime', 3, '2026-06-19', 'Inactive', 0);
+INSERT INTO jobs (CompanyName, CompanyLocation, JobTitle, Description, Salary, JobType, RecruiterID, PostedDate,ClosingDate, Status, IsDeleted) VALUES
+('TechCorp Solutions', 'Bangalore', 'Software Engineer', 'Looking for a backend developer proficient in SQL.', 85000.00, 'FullTime', 1, '2026-06-11','2026-06-23' ,'Active', 0),
+('TechCorp Solutions', 'Bangalore', 'Database Administrator', 'Expertise in database design and indexing needed.', 95000.00, 'FullTime', 1, '2026-06-12','2026-06-23' , 'Active', 0),
+('Innovate Edge LLC', 'Mumbai', 'Frontend Developer', 'UI/UX development using modern JS frameworks.', 70000.00, 'FullTime', 2, '2026-06-15','2026-06-23' , 'Active', 0),
+('Innovate Edge LLC', 'Mumbai', 'Data Analyst Intern', 'Data cleaning and basic reporting dashboard help.', 25000.00, 'PartTime', 2, '2026-06-18','2026-06-23' , 'Active', 0),
+('Global Talents', 'Chennai', 'HR Executive', 'End to end recruitment pipeline processing.', 45000.00, 'FullTime', 3, '2026-06-19', '2026-06-23' ,'Inactive', 0);
 
 
 INSERT INTO applications (JobID, ApplicantID, AppliedDate, ApplicationStatus) VALUES
@@ -109,7 +121,6 @@ INSERT INTO applications (JobID, ApplicantID, AppliedDate, ApplicationStatus) VA
 (1, 2, '2026-06-16', 'ShortListed'),                                -- Priya applying for Software Engineer
 (3, 2, '2026-06-17', 'Selected'),                                    -- Priya applying for Frontend Developer
 (4, 1, '2026-06-20', 'Rejected');                                 -- Rahul applying for Data Analyst Intern
-
 
 
 --1. Display all records
@@ -189,14 +200,14 @@ ORDER BY Salary DESC
 --10. Display summary report
 CREATE VIEW USER_VIEW
 AS
-SELECT Fullname,Email,Phone,DateOfBirth,Gender,Role,Status FROM users
+SELECT Fullname,Email,Phone,DateOfBirth,Gender,Role,Status FROM users;
 
 CREATE VIEW RECRUITER_VIEW
 AS
 SELECT R.UserID,U.Fullname,U.Email,U.Phone,R.CompanyName,R.CompayLocation FROM recruiter R
 JOIN users U
 ON R.UserID = U.ID
-WHERE U.Role = 'Recruiter'
+WHERE U.Role = 'Recruiter';
 
 
 CREATE VIEW APPLICANT_VIEW
@@ -204,7 +215,7 @@ AS
 SELECT A.UserID,U.Fullname,U.Email,U.Phone,U.Gender,A.Experience,A.Qualification FROM applicant A
 JOIN users U
 ON A.UserID = U.ID
-WHERE U.Role = 'Applicant'
+WHERE U.Role = 'Applicant';
 
 CREATE VIEW JOBS_VIEW
 AS
@@ -226,3 +237,16 @@ SELECT * FROM RECRUITER_VIEW
 SELECT * FROM APPLICANT_VIEW
 SELECT * FROM JOBS_VIEW
 SELECT * FROM APPLICATION_VIEW
+
+
+-- for soft delete
+UPDATE jobs SET IsDeleted = 1 where ID = 5
+SELECT * FROM jobs
+
+SELECT * FROM users
+SELECT * FROM applicant
+SELECT * FROM recruiter
+SELECT * FROM applications
+
+
+

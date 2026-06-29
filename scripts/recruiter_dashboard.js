@@ -26,6 +26,49 @@ themeBtn.addEventListener("click",function(){
 const loggedInUser=JSON.parse(localStorage.getItem("loggedInUser"));
 let editId=null;
 
+
+//max date of end date
+const today=new Date().toISOString().split("T")[0];
+document.getElementById("endDate").min=today;
+
+//deactivate button
+const activateBtn=document.getElementById("deactivate");
+
+if(loggedInUser.Status === "active"){
+    activateBtn.innerHTML=`<i class="bi bi-person-x-fill me-2"></i>Deactivate`;
+}
+else{
+    activateBtn.innerHTML=`<i class="bi bi-person-check-fill me-2"></i>Activate`;
+}
+
+if(loggedInUser.Status === "inactive"){
+    document.getElementById("appContainer").innerHTML=`
+    <div class="col-12">
+        <div class="alert alert-warning text-center">
+            <i class="bi bi-person-x-fill me-2"></i>
+            Your account is inactive.Activate your account to view and post jobs.
+        </div>
+    </div>
+    `;
+    document.getElementById("jobContainer").innerHTML=`
+    <div class="col-12">
+        <div class="alert alert-warning text-center">
+            <i class="bi bi-person-x-fill me-2"></i>
+            Your account is inactive.Activate your account to view and apply for jobs.
+        </div>
+    </div>
+    `;
+    document.getElementById("deletedContainer").innerHTML=`
+    <div class="col-12">
+        <div class="alert alert-warning text-center">
+            <i class="bi bi-person-x-fill me-2"></i>
+            Your account is inactive.Activate your account to view and apply for jobs.
+        </div>
+    </div>
+    `;
+    document.getElementById("postBtn").disabled=true;
+}
+
 //pagination
 const rowPerPage=5;
 let currentPage=1;
@@ -55,6 +98,7 @@ function changePage(page,loadFunction){
     currentPage=page;
     loadFunction();
 }
+
 //offcanvas data 
 document.getElementById("fullname").innerText=loggedInUser.Fullname;
 document.getElementById("dob").innerText=loggedInUser.DateOfBirth;
@@ -93,16 +137,6 @@ async function logoutUser(){
 }
 
 
-//deactivate button
-const activateBtn=document.getElementById("deactivate");
-
-if(loggedInUser.Status === "active"){
-    activateBtn.innerHTML=`<i class="bi bi-person-x-fill me-2"></i>Deactivate`;
-}
-else{
-    activateBtn.innerHTML=`<i class="bi bi-person-check-fill me-2"></i>Activate`;
-}
-
 //loading modal
 document.getElementById("postBtn").addEventListener("click",function(){
 
@@ -121,13 +155,14 @@ document.getElementById("postJobBtn").addEventListener("click",async function(){
     const Salary=document.getElementById("salary").value;
     const JobType=document.getElementById("jobType").value;
     const Experience=document.getElementById("experience").value;
+    const EndDate=document.getElementById("endDate").value;
     const Status=document.getElementById("status").value;
 
     const recruiterId=loggedInUser.id;
     const today=new Date().toISOString().split("T")[0];
   
 
-    if(!CompanyName || !CompanyLocation || !JobTitle || !Description || skills.length === 0 || !Salary || !JobType || !Experience ||!Status){
+    if(!CompanyName || !CompanyLocation || !JobTitle || !Description || skills.length === 0 || !Salary || !JobType || !Experience || !EndDate ||!Status){
         await Swal.fire({
             icon:"warning",
             title:"Missing fields",
@@ -146,6 +181,7 @@ document.getElementById("postJobBtn").addEventListener("click",async function(){
         Salary:Salary,
         JobType:JobType,
         Experience:Experience,
+        EndDate:EndDate,
         RecruiterID:recruiterId,
         PostedDate:today,
         Status:Status,
@@ -155,7 +191,7 @@ document.getElementById("postJobBtn").addEventListener("click",async function(){
         const result=await Swal.fire({
             icon:"question",
             title:"Post",
-            text:"Are you sure ? You want to post this job?",
+            text:"Are you sure ? You want to post/update this job?",
             showCancelButton:true,
             confirmButtonColor:"#3085d6",
             cancelButtonColor:"#d33",
@@ -258,6 +294,11 @@ async function loadJobs(){
     
     let tablebody="";
 
+    if(filteredJobs.length === 0){
+        tablebody=`<td colspan="8" class="text-center">No Jobs Found</td>`;
+        document.getElementById("jobTBody").innerHTML=tablebody;
+    }
+
     paginatedJobs.forEach(job=>{
         tablebody+=`
         <tr>
@@ -266,6 +307,7 @@ async function loadJobs(){
             <td>${job.Salary}</td>
             <td>${job.JobType}</td>
             <td>${job.PostedDate.split("-").reverse().join("-")}</td>
+            <td>${job.EndDate < new Date().toISOString().split("T")[0] ? `<p class="badge bg-secondary">Closed</p>` :job.EndDate.split("-").reverse().join("-")}
             <td>${job.Status}</td>
             <td class="text-center">
                 <button class="btn btn-warning btn-sm" onclick="editJob('${job.id}')" title="Edit Task"><i class="bi bi-pencil"></i></button>
@@ -282,6 +324,7 @@ async function loadJobs(){
     renderPagination(filteredJobs.length,"pageJobs","jobPagination");
     
 }
+
 //reset
 function resetJobModal(){
 
@@ -322,6 +365,8 @@ async function editJob(id) {
     })
      document.getElementById("salary").value=jobs.Salary;
      document.getElementById("jobType").value=jobs.JobType;
+     document.getElementById("experience").value=jobs.Experience;
+     document.getElementById("endDate").value=jobs.EndDate;
      document.getElementById("status").value=jobs.Status;
 
      document.getElementById("modalTitle").innerText ="Update Job Details";
@@ -403,6 +448,11 @@ async function loadApplication(status){
 
     let tablebody="";
 
+     if(paginatedApplications.length === 0){
+        tablebody=`<td colspan="8" class="text-center">No Applications Found</td>`;
+        document.getElementById("appTBody").innerHTML=tablebody;
+    }
+
     paginatedApplications.forEach(appl=>{
 
         const job=recruiterJobs.find(job=>job.id === appl.JobID);
@@ -416,7 +466,7 @@ async function loadApplication(status){
             <td>${appl.AppliedDate.split("-").reverse().join("-")}</td>
             <td>${appl.ApplicationStatus}</td>
             <td class="text-center">
-                <button class="btn btn-sm" style="background:#C1121F;color:white;" onclick="viewApplicant('${appl.ApplicantID}','${appl.JobID}')" 
+                <button class="btn btn-sm" style="background:#C1121F;color:white;" onclick="viewApplicant('${appl.ApplicantID}','${appl.JobID}','${appl.ApplicationStatus}')" 
                 data-bs-toggle="modal" data-bs-target="#viewApplicant" title="View Applicant Details"><i class="bi bi-eye"></i></button>                
             </td>
         </tr>
@@ -431,7 +481,7 @@ async function loadApplication(status){
 
 
 //view applicant
-async function viewApplicant(applicantid,jobid){
+async function viewApplicant(applicantid,jobid,status){
     let res=await fetch(API.users);
     let users=await res.json(); 
 
@@ -445,6 +495,44 @@ async function viewApplicant(applicantid,jobid){
     document.getElementById("appqualification").innerText=filteredUser.Qualification;
     document.getElementById("appexperience").innerText=filteredUser.Experience;
     document.getElementById("appskills").innerText=filteredUser.Skills.join(",");
+
+    //disabling previous options is view applicant modal
+    if(status === "Called For Interview"){
+        document.getElementById("ApplicationStatus").innerHTML =
+        `   <option value="">Edit Status</option>
+            <option value="ShortListed">Short Listed</option>
+            <option value="Selected">Selected</option>
+            <option value="Rejected">Rejected</option>
+        `;
+    }
+    else if(status === "ShortListed"){
+        document.getElementById("ApplicationStatus").innerHTML =
+        `   <option value="">Edit Status</option>
+            <option value="Selected">Selected</option>
+            <option value="Rejected">Rejected</option>
+        `;
+    }
+    else if(status === "Selected"){
+        document.getElementById("ApplicationStatus").innerHTML =`
+            <option value="">Edit Status</option>
+            <option value="Rejected">Rejected</option>
+        `;
+    }
+    else if(status === "Rejected"){
+        document.getElementById("ApplicationStatus").innerHTML =`
+            <option value="">Edit Status</option>
+            <option value="Rejected">Selected</option>
+        `;
+    }
+    else{
+        document.getElementById("ApplicationStatus").innerHTML =`
+        <option value="">Edit Status</option>
+        <option value="Called For Interview">Called for Interview</option>
+        <option value="ShortListed">Short Listed</option>
+        <option value="Selected">Selected</option>
+        <option value="Rejected">Rejected</option>
+        `;
+    }
 
     
 
@@ -700,6 +788,10 @@ async function loadDeletedJob(){
     const paginatedDeleted = paginate(deleteJobs);
 
     let tablebody="";
+    if(paginatedDeleted.length === 0){
+        tablebody=`<td colspan="8" class="text-center">No Jobs Found</td>`;
+        document.getElementById("appTBody").innerHTML=tablebody;
+    }
 
     paginatedDeleted.forEach(job=>{
         tablebody+=`
@@ -723,6 +815,7 @@ async function loadDeletedJob(){
     //pagination
     renderPagination(deleteJobs.length,"pageDeleted","deletedPagination");    
 }
+
 async function restoreJob(id) {
 
     const result=await Swal.fire({
@@ -761,7 +854,6 @@ async function restoreJob(id) {
 }
 
 
-
 function showApplicationStatus(status){
 
     document.getElementById("appContainer").classList.remove("d-none");
@@ -775,3 +867,24 @@ function showApplicationStatus(status){
 
     loadApplication(status);
 }
+
+//show application status Count
+async function applicationCount(){
+    let res=await fetch(API.applications);
+    let appl=await res.json();
+
+    let resjob=await fetch(API.jobs);
+    let jobs=await resjob.json();
+
+    const recruiterjobs=jobs.filter(job=>job.RecruiterID  === loggedInUser.id);
+
+    const filteredappl =appl.filter(app => recruiterjobs.some(job=>job.id === app.JobID));
+
+    document.getElementById("shortCount").innerText=filteredappl.filter(appl=>appl.ApplicationStatus === "ShortListed").length;
+    document.getElementById("selectCount").innerText=filteredappl.filter(appl=>appl.ApplicationStatus === "Selected").length;
+    document.getElementById("rejectCount").innerText=filteredappl.filter(appl=>appl.ApplicationStatus === "Rejected").length;
+    document.getElementById("callCount").innerText=filteredappl.filter(appl=>appl.ApplicationStatus === "Called For Interview").length;
+} 
+
+applicationCount();
+

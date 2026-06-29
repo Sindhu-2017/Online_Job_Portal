@@ -11,12 +11,11 @@ html,body{
 #sidebar{
     top:0;
     left:0;
-    width:250px;
+    width:270px;
     height: 100vh;
     position:fixed;
     overflow-y: auto;
-    background: linear-gradient(160deg, #2d3748, #4a5568, #718096);
-
+    background: linear-gradient(160deg, #4B5563, #6B7280, #9CA3AF);
     color:white;
     display: flex;
     flex-direction: column;
@@ -48,9 +47,11 @@ html,body{
     color:red
 }
 #main-container{
-    margin-left:250px;
+    margin-left:270px;
     height:100vh;
-    background: linear-gradient(to right, #ffffff , #d1d5db);
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: linear-gradient(to right, #FFFFFF, #E5E7EB);
     background-size: 400% 400%;
     animation: gradientMove 12s ease infinite;
 }
@@ -84,7 +85,7 @@ html,body{
 
 }
 #themeBtn,#postBtn,#postJobBtn ,#accBtn ,#updateBtn{
-    background: linear-gradient(to right, #475569, #64748B);
+    background: linear-gradient(135deg, #64748B, #94A3B8);
     color:white;
     font-weight: bold;
 }
@@ -95,7 +96,7 @@ html,body{
 }
 
 #mainCards .card{
-    background: linear-gradient(135deg, #475569, #64748B);
+    background: linear-gradient(135deg, #64748B, #94A3B8);
     transition: all 0.3s ease;
 }
 #postedCard a,#appCard a,#deletedCard a{
@@ -120,7 +121,7 @@ html,body{
 }
 
 .input-group-text{
-    background: linear-gradient(to right, #475569, #64748B);
+    background: linear-gradient(135deg, #64748B, #94A3B8);
     color:white !important;
     font-weight: bold;
 }
@@ -128,7 +129,7 @@ html,body{
     font-weight:500;
 }
 .modal-header{
-    background: linear-gradient(to right, #475569, #64748B);
+    background: linear-gradient(135deg, #64748B, #94A3B8);
     color:white !important;
     font-weight: bold;
 }
@@ -142,16 +143,16 @@ html,body{
     color:red
 }
 #jobTable thead th{
-    background: linear-gradient(to right, #475569, #64748B);
+    background: linear-gradient(135deg, #64748B, #94A3B8);
     color:white;
 }
 
 #appTable thead th{
-    background: linear-gradient(to right, #475569, #64748B);
+    background: linear-gradient(135deg, #64748B, #94A3B8);
     color:white;
 }
 #deletedTable thead th{
-    background: linear-gradient(to right, #475569, #64748B);
+    background: linear-gradient(135deg, #64748B, #94A3B8);
     color:white;
 }
 #appContainer{

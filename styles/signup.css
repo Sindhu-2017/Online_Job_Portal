@@ -3,7 +3,7 @@
     font-family: "Poppins",sans-serif;
 }
 body{
-    background-color: #F8FAFC;
+    background: linear-gradient(to right, #FFFFFF, #E5E7EB);
     background-size: 400% 400%;
     animation: gradientMove 12s ease infinite;
 }
@@ -13,7 +13,7 @@ body{
     100%{background-position: 0% 50%;}
 }
 #navContainer{
-    background: linear-gradient(135deg, #475569, #64748B);
+    background: linear-gradient(160deg, #4B5563, #6B7280, #9CA3AF);
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     top:0;
     left:0;
@@ -40,8 +40,7 @@ body{
     transform: translateY(-3px);
 }
 .card-header{
-    background: linear-gradient(135deg, #475569, #64748B);
-
+    background: linear-gradient(160deg, #4B5563, #6B7280, #9CA3AF);
     color:white !important;
     text-align: center;
     padding: 20px;
@@ -68,8 +67,7 @@ body{
     border:1px solid #505967;
 }
 .input-group-text{
-    background: linear-gradient(135deg, #475569, #64748B);
-
+    background: linear-gradient(160deg, #4B5563, #6B7280, #9CA3AF);
     color:white !important;
     font-weight: bold;
 }

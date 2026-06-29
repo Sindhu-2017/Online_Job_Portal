@@ -25,7 +25,7 @@
       "Role": "Applicant",
       "CompanyName": "",
       "CompanyLocation": "",
-      "Qualification": "Bca",
+      "Qualification": "BCA",
       "Experience": "2",
       "Skills": [
         "HTML",
@@ -47,7 +47,7 @@
       "Role": "Applicant",
       "CompanyName": "",
       "CompanyLocation": "",
-      "Qualification": "B.sc Cs",
+      "Qualification": "B.Sc CS",
       "Experience": "3",
       "Skills": [
         "HTML",
@@ -67,7 +67,7 @@
       "Role": "Applicant",
       "CompanyName": "",
       "CompanyLocation": "",
-      "Qualification": "Be Cse",
+      "Qualification": "BE CSE",
       "Experience": "5",
       "Skills": [
         "MySQL",
@@ -86,7 +86,7 @@
       "Role": "Applicant",
       "CompanyName": "",
       "CompanyLocation": "",
-      "Qualification": "Mca",
+      "Qualification": "MCA",
       "Experience": "3",
       "Skills": [
         "JavaScript",
@@ -106,7 +106,7 @@
       "Role": "Applicant",
       "CompanyName": "",
       "CompanyLocation": "",
-      "Qualification": "B.tech It",
+      "Qualification": "B.Tech IT",
       "Experience": "1",
       "Skills": [
         "HTML",
@@ -140,7 +140,7 @@
       "DateOfBirth": "08-06-1998",
       "Gender": "male",
       "Role": "Recruiter",
-      "CompanyName": "Abc Pvt Ltd",
+      "CompanyName": "ABC Pvt Ltd",
       "CompanyLocation": "Coimbatore",
       "Qualification": "",
       "Experience": "",
@@ -156,7 +156,7 @@
       "DateOfBirth": "08-09-2004",
       "Gender": "female",
       "Role": "Recruiter",
-      "CompanyName": "Xyz Ltd",
+      "CompanyName": "XYZ Ltd",
       "CompanyLocation": "Coimbatore",
       "Qualification": "",
       "Experience": "",
@@ -164,6 +164,49 @@
       "Password": "11!!aaAA",
       "Status": "active",
       "id": "jPG839CwuVA"
+    },
+    {
+      "Fullname": "Kavya",
+      "Email": "kavya@gmail.com",
+      "Phone": "1111111111",
+      "DateOfBirth": "20-06-2008",
+      "Gender": "female",
+      "Role": "Applicant",
+      "CompanyName": "",
+      "CompanyLocation": "",
+      "Qualification": "BSc CS",
+      "Experience": "0",
+      "Skills": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "C#"
+      ],
+      "Password": "11!!aaAA",
+      "Status": "active",
+      "id": "iskl9HJk5kg"
+    },
+    {
+      "Fullname": "Devasree K",
+      "Email": "deva@gmail.com",
+      "Phone": "1234567890",
+      "DateOfBirth": "18-04-2003",
+      "Gender": "female",
+      "Role": "Applicant",
+      "CompanyName": "",
+      "CompanyLocation": "",
+      "Qualification": "BSc CS with DA",
+      "Experience": "1",
+      "Skills": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "React",
+        "Figma"
+      ],
+      "Password": "11!!aaAA",
+      "Status": "active",
+      "id": "WaxbXBgxFCo"
     }
   ],
   "jobs": [
@@ -180,6 +223,7 @@
       "Salary": "80000",
       "JobType": "FullTime",
       "Experience": "0",
+      "EndDate": "2026-06-27",
       "RecruiterID": "PQCMmkA12eQ",
       "PostedDate": "2026-06-27",
       "Status": "Active",
@@ -199,6 +243,7 @@
       "Salary": "65000",
       "JobType": "FullTime",
       "Experience": "0",
+      "EndDate": "2026-06-30",
       "RecruiterID": "PQCMmkA12eQ",
       "PostedDate": "2026-06-27",
       "Status": "Active",
@@ -218,6 +263,7 @@
       "Salary": "45000",
       "JobType": "FullTime",
       "Experience": "0",
+      "EndDate": "2026-06-30",
       "RecruiterID": "PQCMmkA12eQ",
       "PostedDate": "2026-06-27",
       "Status": "Inactive",
@@ -236,6 +282,7 @@
       "Salary": "23000",
       "JobType": "FullTime",
       "Experience": "3",
+      "EndDate": "2026-06-30",
       "RecruiterID": "PQCMmkA12eQ",
       "PostedDate": "2026-06-28",
       "Status": "Active",
@@ -254,6 +301,7 @@
       "Salary": "55000",
       "JobType": "PartTime",
       "Experience": "2",
+      "EndDate": "2026-06-30",
       "RecruiterID": "jPG839CwuVA",
       "PostedDate": "2026-06-28",
       "Status": "Active",
@@ -272,6 +320,7 @@
       "Salary": "70000",
       "JobType": "FullTime",
       "Experience": "2",
+      "EndDate": "2026-06-30",
       "RecruiterID": "jPG839CwuVA",
       "PostedDate": "2026-06-28",
       "Status": "Active",
@@ -291,6 +340,7 @@
       "Salary": "50000",
       "JobType": "FullTime",
       "Experience": "0",
+      "EndDate": "2026-06-30",
       "RecruiterID": "jPG839CwuVA",
       "PostedDate": "2026-06-28",
       "Status": "Active",
@@ -309,6 +359,7 @@
       "Salary": "50000",
       "JobType": "FullTime",
       "Experience": "0",
+      "EndDate": "2026-06-30",
       "RecruiterID": "PQCMmkA12eQ",
       "PostedDate": "2026-06-28",
       "Status": "Active",
@@ -327,6 +378,7 @@
       "Salary": "65000",
       "JobType": "FullTime",
       "Experience": "1",
+      "EndDate": "2026-06-28",
       "RecruiterID": "PQCMmkA12eQ",
       "PostedDate": "2026-06-28",
       "Status": "Active",
@@ -345,11 +397,127 @@
       "Salary": "65000",
       "JobType": "FullTime",
       "Experience": "2",
+      "EndDate": "2026-06-30",
       "RecruiterID": "PQCMmkA12eQ",
       "PostedDate": "2026-06-28",
       "Status": "Active",
       "IsDeleted": false,
       "id": "-KFb63YVC1Y"
+    },
+    {
+      "CompanyName": "G2 Technologies Pvt Limited",
+      "CompanyLocation": "Coimbatore",
+      "JobTitle": "Sql Developer",
+      "Description": "SQL Developer",
+      "Skills": [
+        "SQL",
+        "MySQL"
+      ],
+      "Salary": "20000",
+      "JobType": "FullTime",
+      "Experience": "3",
+      "EndDate": "2026-06-30",
+      "RecruiterID": "PQCMmkA12eQ",
+      "PostedDate": "2026-06-29",
+      "Status": "Active",
+      "IsDeleted": false,
+      "id": "mrwfQy0E180"
+    },
+    {
+      "CompanyName": "G2 Technologies Pvt Limited",
+      "CompanyLocation": "Coimbatore",
+      "JobTitle": "Front Stack Developer",
+      "Description": "Front Stack Developer",
+      "Skills": [
+        "HTML",
+        "CSS",
+        "Bootstrap"
+      ],
+      "Salary": "21000",
+      "JobType": "FullTime",
+      "Experience": "2",
+      "EndDate": "2026-07-02",
+      "RecruiterID": "PQCMmkA12eQ",
+      "PostedDate": "2026-06-29",
+      "Status": "Active",
+      "IsDeleted": false,
+      "id": "Sf8t9xWqCz8"
+    },
+    {
+      "CompanyName": "ABC Pvt Ltd",
+      "CompanyLocation": "Coimbatore",
+      "JobTitle": "Back End Developer",
+      "Description": "Back End Developer",
+      "Skills": [
+        "MongoDB",
+        "SQL"
+      ],
+      "Salary": "23000",
+      "JobType": "FullTime",
+      "Experience": "2",
+      "EndDate": "2026-07-01",
+      "RecruiterID": "bGjkHUEmxus",
+      "PostedDate": "2026-06-29",
+      "Status": "Active",
+      "IsDeleted": false,
+      "id": "r0Bc1hzFBRY"
+    },
+    {
+      "CompanyName": "Cgvak Tech Ltd",
+      "CompanyLocation": "Coimbatore",
+      "JobTitle": "Front End Designer",
+      "Description": "Front End Designer",
+      "Skills": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Bootstrap"
+      ],
+      "Salary": "34000",
+      "JobType": "FullTime",
+      "Experience": "1",
+      "EndDate": "2026-06-30",
+      "RecruiterID": "S2objo573ms",
+      "PostedDate": "2026-06-29",
+      "Status": "Active",
+      "IsDeleted": false,
+      "id": "brYOxM1RpZY"
+    },
+    {
+      "CompanyName": "ABC Pvt Ltd",
+      "CompanyLocation": "Coimbatore",
+      "JobTitle": "Designer",
+      "Description": "Designer",
+      "Skills": [
+        "Figma"
+      ],
+      "Salary": "8000",
+      "JobType": "PartTime",
+      "Experience": "1",
+      "EndDate": "2026-07-01",
+      "RecruiterID": "bGjkHUEmxus",
+      "PostedDate": "2026-06-29",
+      "Status": "Active",
+      "IsDeleted": false,
+      "id": "lTCvQMsk3zs"
+    },
+    {
+      "CompanyName": "ABC Pvt Ltd",
+      "CompanyLocation": "Coimbatore",
+      "JobTitle": "SQL Developer",
+      "Description": "SQL Developer",
+      "Skills": [
+        "SQL"
+      ],
+      "Salary": "21000",
+      "JobType": "FullTime",
+      "Experience": "2",
+      "EndDate": "2026-07-01",
+      "RecruiterID": "bGjkHUEmxus",
+      "PostedDate": "2026-06-29",
+      "Status": "Active",
+      "IsDeleted": false,
+      "id": "qeWPgp6Qzkw"
     }
   ],
   "applications": [
@@ -385,8 +553,57 @@
       "JobID": "Iw9PYIqi7Pg",
       "ApplicantID": "i184lG0S_ks",
       "AppliedDate": "2026-06-28",
-      "ApplicationStatus": "Applied",
+      "ApplicationStatus": "Selected",
       "id": "H72JlLLdkRo"
+    },
+    {
+      "JobID": "PIwayIoZqew",
+      "ApplicantID": "iskl9HJk5kg",
+      "AppliedDate": "2026-06-29",
+      "ApplicationStatus": "Applied",
+      "id": "41KibZiy6PE"
+    },
+    {
+      "JobID": "Iw9PYIqi7Pg",
+      "ApplicantID": "iskl9HJk5kg",
+      "AppliedDate": "2026-06-29",
+      "ApplicationStatus": "Selected",
+      "id": "wc6_XFPs9RI"
+    },
+    {
+      "JobID": "mrwfQy0E180",
+      "ApplicantID": "1kS7FIjrn40",
+      "AppliedDate": "2026-06-29",
+      "ApplicationStatus": "Applied",
+      "id": "YUTKHKxSvSw"
+    },
+    {
+      "JobID": "bKTXD0KTEBA",
+      "ApplicantID": "Xl9PL257hT8",
+      "AppliedDate": "2026-06-29",
+      "ApplicationStatus": "Applied",
+      "id": "BTL9JOprlKw"
+    },
+    {
+      "JobID": "PIwayIoZqew",
+      "ApplicantID": "Xl9PL257hT8",
+      "AppliedDate": "2026-06-29",
+      "ApplicationStatus": "Applied",
+      "id": "2PH4pA6l3WU"
+    },
+    {
+      "JobID": "Iw9PYIqi7Pg",
+      "ApplicantID": "3xs99fJr-vA",
+      "AppliedDate": "2026-06-29",
+      "ApplicationStatus": "Applied",
+      "id": "8KyD_pyvPn8"
+    },
+    {
+      "JobID": "lTCvQMsk3zs",
+      "ApplicantID": "WaxbXBgxFCo",
+      "AppliedDate": "2026-06-29",
+      "ApplicationStatus": "Called For Interview",
+      "id": "PskJUDwf20s"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

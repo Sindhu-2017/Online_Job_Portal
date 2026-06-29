@@ -19,10 +19,18 @@
         <hr class="text-white">
 
         <p class="text-light ms-3 mt-2 fw-bold">Application Status</p>
-        <a class="sidebar-link" onclick="showApplicationStatus('shortlisted')"><i class="bi bi-star-fill me-2"></i> Shortlisted</a>
-        <a class="sidebar-link" onclick="showApplicationStatus('selected')"> <i class="bi bi-patch-check-fill me-2"></i> Selected </a>
-        <a class="sidebar-link" onclick="showApplicationStatus('rejected')"><i class="bi bi-x-circle-fill me-2"></i>Rejected</a>
-        <a class="sidebar-link" onclick="showApplicationStatus('called for interview')"><i class="bi bi-telephone-outbound me-2"></i>Called for Interview</a>
+        <a class="sidebar-link" onclick="showApplicationStatus('shortlisted')">
+            <i class="bi bi-star-fill me-2"></i> Shortlisted<span class="badge ms-1" id="shortCount" style="background: #2563EB; color:white;">0</span>
+        </a>
+        <a class="sidebar-link" onclick="showApplicationStatus('selected')"> 
+            <i class="bi bi-patch-check-fill me-2"></i> Selected <span class="badge ms-1" id="selectCount" style="background: #2563EB; color:white;">0</span>
+        </a>
+        <a class="sidebar-link" onclick="showApplicationStatus('rejected')">
+            <i class="bi bi-x-circle-fill me-2"></i>Rejected<span class="badge ms-1" id="rejectCount" style="background: #2563EB; color:white;">0</span>
+        </a>
+        <a class="sidebar-link" onclick="showApplicationStatus('called for interview')">
+            <i class="bi bi-telephone-outbound me-2"></i>Called for    Interview<span class="badge ms-1" id="callCount" style="background: #2563EB; color:white;">0</span>
+        </a>
 
 
         <hr class="text-white">
@@ -68,7 +76,7 @@
 
         <div class="offcanvas offcanvas-end" id="myAcc">
             <div class="offcanvas-header">
-                <h2 class="offcanvas-title">My Account</h2>
+                <h2 class="offcanvas-title"><i class="bi bi-person-circle me-2"></i>My Account</h2>
                 <button class="btn-close" data-bs-dismiss="offcanvas"></button>
             </div>
 
@@ -91,7 +99,7 @@
                         <div class="card-body text-center">
                             <a class="text-center text-decoration-none fs-6 fw-bold">
                                 <i class="bi bi-people-fill fs-6 text-secondary"></i>
-                                Application<span class="badge ms-2" id="appCount" style="background:#2563EB;color:white;">0</span>
+                                Application<span class="badge ms-2 fs-6" id="appCount" style="background:#2563EB;color:white;">0</span>
                             </a>
                         </div>
                     </div>
@@ -102,7 +110,7 @@
                         <div class="card-body text-center">
                             <a class="text-center text-decoration-none fs-6 fw-bold">
                                 <i class="bi bi-briefcase-fill fs-6 text-secondary"></i>
-                                Posted Jobs<span class="badge ms-2" id="postCount" style="background:#198754;color:white;">0</span>
+                                Posted Jobs<span class="badge ms-2 fs-6" id="postCount" style="background:#198754;color:white;">0</span>
                             </a>
                         </div>
                     </div>
@@ -113,7 +121,7 @@
                         <div class="card-body text-center">
                             <a class="text-center text-decoration-none fs-6 fw-bold">
                                 <i class="bi bi-trash3-fill fs- text-secondary"></i>
-                                Deleted Jobs<span class="badge ms-2" id="deletedCount" style="background:#F59E0B;color:white;">0</span>
+                                Deleted Jobs<span class="badge ms-2 fs-6" id="deletedCount" style="background:#F59E0B;color:white;">0</span>
                             </a>
                         </div>
                     </div>
@@ -135,6 +143,7 @@
                             <th>Salary</th>
                             <th>Job Type</th>
                             <th>Posted Date</th>
+                            <th>Closing Date</th>
                             <th>Status</th>
                             <th>Action</th>
 
@@ -366,6 +375,12 @@
                         <input type="number" class="form-control" id="experience" placeholder="experience in years">
                     </div>
 
+                    <!-- Closing Date -->
+                    <label class="form-label mb-2 mt-3" for="endDate">End Date</label>
+                    <div class="input-group">
+                        <input type="date" class="form-control" id="endDate" placeholder="Closing Date of this job opening">
+                    </div>  
+
                     <!-- job status -->
                     <label class="form-label mb-2 mt-3" for="status">Status</label>
                     <div class="input-group">
@@ -410,8 +425,8 @@
                     <option value="">Edit Status</option>
                     <option value="Called For Interview">Called for Interview</option>
                     <option value="ShortListed">Short Listed</option>
-                    <option value="Rejected">Rejected</option>
                     <option value="Selected">Selected</option>
+                    <option value="Rejected">Rejected</option>
                 </select>
 
                 <button class="btn btn-primary w-100" id="updateBtn">Update</button>

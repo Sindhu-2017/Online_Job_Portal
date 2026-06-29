@@ -1,3 +1,85 @@
+# folder structure
+
+HireHub/
+│
++-----assets/
+│     +---images/
+│         +---jobportal.jpg
+│
++-----pages/
+│   +--- signup.html
+│   +---applicant_dashboard.html
+│   +--- recruiter_dashboard.html
+│
++-----scripts/
+│   +--- config.js
+│   +--- index.js
+│   +--- signup.js
+│   +--- applicant_dashboard.js
+│   +--- recruiter_dashboard.js
+│
++-----styles/
+│   +--- index.css
+│   +--- signup.css
+│   +--- applicant_dashboard.css
+│   +--- recruiter_dashboard.css
+│
++-----json/
+|     +--- db.json
+|  
+|
++----- index.html
++----- README.md
++-----Jobportal.sql
+
+
+# How to Run the Project
+
+### Step 1: Download the Project
+
+* Clone the repository using Git or download the ZIP file.
+* Extract the project folder.
+
+### Step 2: Open the Project
+
+* Open the project folder in **Visual Studio Code**.
+
+### Step 3: Install JSON Server
+
+Open the terminal and run:
+
+   npm install -g json-server
+
+
+### Step 4: Start the JSON Server
+
+Run the following command from the project folder:
+
+   json-server --watch db.json
+
+The server will start at:
+
+   http://localhost:3000
+
+
+### Step 5: Open the Website
+
+* Install the **Live Server** extension in Visual Studio Code (if not already installed).
+* Right-click **index.html**.
+* Select **Open with Live Server**.
+
+The project will open in your default browser.
+
+### Step 6: Use the Application
+
+* Register as an Applicant or Recruiter.
+* Log in with your registered credentials.
+* Recruiters can post and manage jobs.
+* Applicants can browse and apply for jobs.
+* Track application status through the respective dashboards.
+
+
+
 # Project Flow
 
 1. **Landing Page**
