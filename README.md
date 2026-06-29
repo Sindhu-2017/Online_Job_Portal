@@ -26,7 +26,7 @@ HireHub/
 │   +--- recruiter_dashboard.css
 │
 +-----json/
-|     +--- db.json
+|     +--- jobportal.json
 |  
 |
 +----- index.html
