@@ -207,6 +207,27 @@
       "Password": "11!!aaAA",
       "Status": "active",
       "id": "WaxbXBgxFCo"
+    },
+    {
+      "Fullname": "Vishal",
+      "Email": "vishal@gmail.com",
+      "Phone": "9876543210",
+      "DateOfBirth": "20-06-2002",
+      "Gender": "male",
+      "Role": "Applicant",
+      "CompanyName": "",
+      "CompanyLocation": "",
+      "Qualification": "MCA",
+      "Experience": "1",
+      "Skills": [
+        "HTML",
+        "CSS",
+        "React",
+        "jQuery"
+      ],
+      "Password": "11!!aaAA",
+      "Status": "active",
+      "id": "SorAJAvauvw"
     }
   ],
   "jobs": [
